@@ -153,7 +153,7 @@ void UNetworkGameInstance::OnStartOnlineGameComplete(FName SessionName, bool bWa
 	}
 	if (bWasSuccessful)
 	{
-		UGameplayStatics::OpenLevel(GetWorld(), "/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap", true, "listen");
+		UGameplayStatics::OpenLevel(GetWorld(), "Arena_V1", true, "listen");
 	}
 }
 
@@ -208,7 +208,7 @@ void UNetworkGameInstance::OnFindSessionsComplete(bool bWasSuccessful) {
 #if TEST
 				if (bTestJoinActivated) {
 					if (bTestFindSessionAgain) {
-						GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Blue, FString::Printf(TEXT("TEST 1/5 : Session still exist OK")));
+						GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Blue, FString::Printf(TEXT("TEST 4/4 : Session still exist OK")));
 						bTestJoinActivated = false;
 						bTestFindSessionAgain = false;
 					}
@@ -292,7 +292,7 @@ void UNetworkGameInstance::OnDestroySessionComplete(FName SessionName, bool bWas
 			Sessions->ClearOnDestroySessionCompleteDelegate_Handle(OnDestroySessionCompleteDelegateHandle);
 			if (bWasSuccessful)
 			{
-				UGameplayStatics::OpenLevel(GetWorld(), "ThirdPersonExampleMap", true);
+				UGameplayStatics::OpenLevel(GetWorld(), "Arena_V1", true);
 #if TEST
 				if (bTestCreateActivated) {
 					GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Blue, FString::Printf(TEXT("TEST 5/5 : Session destroyed OK")));
