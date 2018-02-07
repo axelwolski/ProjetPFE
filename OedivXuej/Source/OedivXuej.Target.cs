@@ -8,6 +8,7 @@ public class OedivXuejTarget : TargetRules
 	public OedivXuejTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
+		bUsesSteam = true;
 		ExtraModuleNames.Add("OedivXuej");
 	}
 }

@@ -9,6 +9,6 @@ public class OedivXuej : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "OnlineSubsystem", "OnlineSubsystemUtils" });
-		DynamicallyLoadedModuleNames.Add("OnlineSubsystemNull");
+		DynamicallyLoadedModuleNames.Add("OnlineSubsystemSteam");
 	}
 }
