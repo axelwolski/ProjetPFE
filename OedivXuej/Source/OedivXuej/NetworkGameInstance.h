@@ -22,11 +22,11 @@ public:
 	virtual void OnCreateSessionComplete(FName SessionName, bool bWasSuccessful);
 	void OnStartOnlineGameComplete(FName SessionName, bool bWasSuccessful);
 
-	// Delegate called when session created 
+	// Delegate called when session created
 	FOnCreateSessionCompleteDelegate OnCreateSessionCompleteDelegate;
 	FOnStartSessionCompleteDelegate OnStartSessionCompleteDelegate;
 
-	// Handles to registered delegates for creating/starting a session 
+	// Handles to registered delegates for creating/starting a session
 	FDelegateHandle OnCreateSessionCompleteDelegateHandle;
 	FDelegateHandle OnStartSessionCompleteDelegateHandle;
 
@@ -65,8 +65,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Network")
 		void DestroySessionAndLeaveGame();
 
+	UPROPERTY(BlueprintReadOnly, Category="Network")
+		TArray<FString> SessionList;
+
 private:
-	bool bSearchDone; //a search needs to be done before tring to join 
+	bool bSearchDone; //a search needs to be done before tring to join
 
 
 					  // ***** TESTS *****

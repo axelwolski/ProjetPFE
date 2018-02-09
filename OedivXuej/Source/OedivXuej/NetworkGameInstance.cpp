@@ -12,6 +12,7 @@ UNetworkGameInstance::UNetworkGameInstance(const FObjectInitializer& ObjectIniti
 	OnFindSessionsCompleteDelegate = FOnFindSessionsCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnFindSessionsComplete);
 	OnJoinSessionCompleteDelegate = FOnJoinSessionCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnJoinSessionComplete);
 	OnDestroySessionCompleteDelegate = FOnDestroySessionCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnDestroySessionComplete);
+	SessionList.Add(TEXT("Session list here"));
 }
 
 void UNetworkGameInstance::StartOnlineGame() {
