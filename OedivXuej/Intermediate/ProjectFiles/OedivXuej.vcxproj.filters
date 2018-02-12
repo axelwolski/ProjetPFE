@@ -4,7 +4,7 @@
 	<ItemGroup>
 		<None Include="..\..\OedivXuej.uproject" />
 		<Filter Include="Source">
-			<UniqueIdentifier>{CB3CED91-A049-46F1-A4B3-62A80895907B}</UniqueIdentifier>
+			<UniqueIdentifier>{FF2E9C17-5774-4EED-B238-252070BB91F6}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Source\OedivXuej.Target.cs">
 			<Filter>Source</Filter>
@@ -13,7 +13,7 @@
 			<Filter>Source</Filter>
 		</None >
 		<Filter Include="Config">
-			<UniqueIdentifier>{0D7EB160-CE8E-4FF0-822F-7C63DDDA64DC}</UniqueIdentifier>
+			<UniqueIdentifier>{DB38D303-6CDB-4553-92B3-AB2683B6C7E0}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Config\DefaultEditor.ini">
 			<Filter>Config</Filter>
@@ -31,8 +31,20 @@
 			<Filter>Config</Filter>
 		</None >
 		<Filter Include="Source\OedivXuej">
-			<UniqueIdentifier>{7B3E8FB9-66FE-49F2-8F9B-7048CED35DBB}</UniqueIdentifier>
+			<UniqueIdentifier>{25CD2FB8-0A26-44F0-A43B-C3CD79B12222}</UniqueIdentifier>
 		</Filter>
+		<ClCompile Include="..\..\Source\OedivXuej\AnimationCharacter.cpp">
+			<Filter>Source\OedivXuej</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\OedivXuej\AnimationCharacter.h">
+			<Filter>Source\OedivXuej</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\OedivXuej\NetworkGameInstance.cpp">
+			<Filter>Source\OedivXuej</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\OedivXuej\NetworkGameInstance.h">
+			<Filter>Source\OedivXuej</Filter>
+		</ClInclude >
 		<None Include="..\..\Source\OedivXuej\OedivXuej.Build.cs">
 			<Filter>Source\OedivXuej</Filter>
 		</None >

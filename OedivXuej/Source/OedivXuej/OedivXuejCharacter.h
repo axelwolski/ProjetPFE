@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AnimationCharacter.h"
 #include "OedivXuejCharacter.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogMyGame, Log, All);
@@ -42,6 +43,8 @@ protected:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
+	void Roll();
+
 	/** 
 	 * Called via input to turn at a given rate. 
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
@@ -65,6 +68,8 @@ protected:
 
 	bool firstForward;
 	FVector precForward;
+
+	UAnimationCharacter * Animation;
 
 protected:
 	// APawn interface

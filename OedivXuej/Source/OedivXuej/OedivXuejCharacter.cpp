@@ -64,6 +64,8 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	PlayerInputComponent->BindAction("Roll", IE_Pressed, this, &AOedivXuejCharacter::Roll);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AOedivXuejCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AOedivXuejCharacter::MoveRight);
 
@@ -81,8 +83,27 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AOedivXuejCharacter::OnResetVR);
+
+	Animation = Cast<UAnimationCharacter>(GetMesh()->GetAnimInstance());
+	Animation->NativeInitializeAnimation();
 }
 
+void AOedivXuejCharacter::Roll()
+{
+	Animation->NativeUpdateAnimation(0.f);
+	Animation->IsRolling = true;
+
+	/*float Value = 10.5f;
+	 find out which way is forward
+	const FRotator Rotation = Controller->GetControlRotation();
+	const FRotator YawRotation(0, Rotation.Yaw, 0);
+	const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+	// get forward vector
+	 const FVector Direction = GetActorForwardVector();
+	 this->AddMovementInput(Direction, Value);*/
+
+}
 
 void AOedivXuejCharacter::OnResetVR()
 {
