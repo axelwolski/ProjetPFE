@@ -65,12 +65,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Network")
 		void DestroySessionAndLeaveGame();
 
-	UPROPERTY(BlueprintReadOnly, Category="Network")
-		TArray<FString> SessionList;
+	UPROPERTY(BlueprintReadWrite, Category="Network")
+		bool bMultiPlayerGame;
 
 private:
 	bool bSearchDone; //a search needs to be done before tring to join
-
 
 					  // ***** TESTS *****
 	bool bTestCreateActivated;

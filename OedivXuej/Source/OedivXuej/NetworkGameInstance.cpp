@@ -5,14 +5,13 @@
 
 #define TEST 1
 
-UNetworkGameInstance::UNetworkGameInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), bSearchDone(false), bTestCreateActivated(false), bTestCreateOtherSession(false), bTestJoinActivated(false) {
+UNetworkGameInstance::UNetworkGameInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), bSearchDone(false), bTestCreateActivated(false), bTestCreateOtherSession(false), bTestJoinActivated(false), bMultiPlayerGame(false) {
 	// Binding de delegates
 	OnCreateSessionCompleteDelegate = FOnCreateSessionCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnCreateSessionComplete);
 	OnStartSessionCompleteDelegate = FOnStartSessionCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnStartOnlineGameComplete);
 	OnFindSessionsCompleteDelegate = FOnFindSessionsCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnFindSessionsComplete);
 	OnJoinSessionCompleteDelegate = FOnJoinSessionCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnJoinSessionComplete);
 	OnDestroySessionCompleteDelegate = FOnDestroySessionCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnDestroySessionComplete);
-	SessionList.Add(TEXT("Session list here"));
 }
 
 void UNetworkGameInstance::StartOnlineGame() {
@@ -315,15 +314,18 @@ void UNetworkGameInstance::OnDestroySessionComplete(FName SessionName, bool bWas
 
 // *************************************************** TESTS ************************************************
 
-#if TEST
+
 void UNetworkGameInstance::SessionCreationTests() {
+#if TEST
 	bTestCreateActivated = true;
 	StartOnlineGame();
+#endif
 }
 
 void UNetworkGameInstance::SessionJoinTests() {
+#if TEST
 	bTestJoinActivated = true;
 	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Blue, FString::Printf(TEXT("TEST 1/5 : Trying to Find the opened session")));
 	FindOnlineGames();
-}
 #endif
+}
