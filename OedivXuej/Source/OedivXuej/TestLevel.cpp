@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+/*
 #include "TestLevel.h"
 #include "Components/ActorComponent.h"
 
@@ -13,7 +13,7 @@ TestLevel::~TestLevel()
 
 int TestLevel::Actors()
 {
-  //TArray<StaticMeshActor> actors = 
+  //TArray<StaticMeshActor> actors =
 }
 
 int TestLevel::BlockingVolumes()
@@ -45,3 +45,4 @@ int TestLevel::PlayerStart()
 {
 
 }
+*/
