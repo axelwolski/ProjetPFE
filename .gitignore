@@ -82,3 +82,5 @@ Build/*/**
 
 # SoulCity
 */Content/SoulCity/*
+*.vcxproj
+*.filters
