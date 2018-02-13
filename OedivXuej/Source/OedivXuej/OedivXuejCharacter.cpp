@@ -65,6 +65,7 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	PlayerInputComponent->BindAction("Roll", IE_Pressed, this, &AOedivXuejCharacter::Roll);
+	PlayerInputComponent->BindAction("Roll", IE_Released, this, &AOedivXuejCharacter::UnRoll);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AOedivXuejCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AOedivXuejCharacter::MoveRight);
@@ -103,6 +104,11 @@ void AOedivXuejCharacter::Roll()
 	 const FVector Direction = GetActorForwardVector();
 	 this->AddMovementInput(Direction, Value);*/
 
+}
+
+void AOedivXuejCharacter::UnRoll()
+{
+	Animation->IsRolling = false;
 }
 
 void AOedivXuejCharacter::OnResetVR()
