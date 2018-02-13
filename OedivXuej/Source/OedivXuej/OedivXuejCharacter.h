@@ -44,7 +44,7 @@ protected:
 	void MoveRight(float Value);
 
 	void Roll();
-	void UnRoll();
+	void JumpRoll();
 
 	/** 
 	 * Called via input to turn at a given rate. 

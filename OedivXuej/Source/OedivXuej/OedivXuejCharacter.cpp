@@ -50,6 +50,8 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	firstRight = true;
 	firstForward = true;
 
+	UE_LOG(LogMyGame, Warning, TEXT("Hello"));
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
@@ -61,11 +63,10 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AOedivXuejCharacter::JumpRoll);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	PlayerInputComponent->BindAction("Roll", IE_Pressed, this, &AOedivXuejCharacter::Roll);
-	PlayerInputComponent->BindAction("Roll", IE_Released, this, &AOedivXuejCharacter::UnRoll);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AOedivXuejCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AOedivXuejCharacter::MoveRight);
@@ -91,9 +92,8 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 void AOedivXuejCharacter::Roll()
 {
-	Animation->NativeUpdateAnimation(0.f);
 	Animation->IsRolling = true;
-
+	//RemoveActionMapping
 	/*float Value = 10.5f;
 	 find out which way is forward
 	const FRotator Rotation = Controller->GetControlRotation();
@@ -106,9 +106,12 @@ void AOedivXuejCharacter::Roll()
 
 }
 
-void AOedivXuejCharacter::UnRoll()
+void AOedivXuejCharacter::JumpRoll() 
 {
-	Animation->IsRolling = false;
+	if (!Animation->IsRolling)
+	{
+		Jump();
+	}
 }
 
 void AOedivXuejCharacter::OnResetVR()
