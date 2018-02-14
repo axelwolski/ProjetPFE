@@ -21,6 +21,12 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
+	// Initialize stats for our character
+	Health = 1.0f;
+	Energy = 1.0f;
+	HealthPercent = FString::FromInt(Health * 100);
+	EnergyPercent = FString::FromInt(Energy * 100);
+
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
@@ -31,7 +37,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
+	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
@@ -39,7 +45,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
+	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
@@ -52,7 +58,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 
 	UE_LOG(LogMyGame, Warning, TEXT("Hello"));
 
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
+	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character)
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
@@ -90,9 +96,41 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	Animation->NativeInitializeAnimation();
 }
 
+void AOedivXuejCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+}
+
+void AOedivXuejCharacter::RefillEnergy()
+{
+	if (Energy < 1.0)
+	{
+		Energy += 0.05;
+		UpdateEnergyPercent();
+	}
+}
+
+void AOedivXuejCharacter::UpdateEnergyPercent()
+{
+	EnergyPercent = FString::FromInt(Energy * 100);
+}
+
+void AOedivXuejCharacter::UpdateHealthPercent()
+{
+	HealthPercent = FString::FromInt(Health * 100);
+}
+
 void AOedivXuejCharacter::Roll()
 {
-	Animation->IsRolling = true;
+	if (Energy >= 0.25)
+	{
+		Animation->IsRolling = true;
+		Energy -= 0.25;
+		//UpdateEnergyPercent();
+		Info = "";
+	}
+	else
+		Info = "Not Enought Energy !";
 	//RemoveActionMapping
 	/*float Value = 10.5f;
 	 find out which way is forward
@@ -106,11 +144,18 @@ void AOedivXuejCharacter::Roll()
 
 }
 
-void AOedivXuejCharacter::JumpRoll() 
+void AOedivXuejCharacter::JumpRoll()
 {
 	if (!Animation->IsRolling)
 	{
-		Jump();
+		if (Energy >= 0.20) {
+			Info = "";
+			Jump();
+			Energy -= 0.20;
+			//UpdateEnergyPercent();
+		}
+		else
+			Info = "Not Enought Energy !";
 	}
 }
 
@@ -198,7 +243,7 @@ void AOedivXuejCharacter::MoveRight(float Value)
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// get right vector 
+		// get right vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
