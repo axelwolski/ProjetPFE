@@ -122,15 +122,17 @@ void AOedivXuejCharacter::UpdateHealthPercent()
 
 void AOedivXuejCharacter::Roll()
 {
-	if (Energy >= 0.25)
-	{
-		Animation->IsRolling = true;
-		Energy -= 0.25;
-		//UpdateEnergyPercent();
-		Info = "";
+	if (!Animation->IsRolling) {
+		if (Energy >= 0.25)
+		{
+			Animation->IsRolling = true;
+			Energy -= 0.25;
+			UpdateEnergyPercent();
+			Info = "";
+		}
+		else
+			Info = "Not Enought Energy !";
 	}
-	else
-		Info = "Not Enought Energy !";
 	//RemoveActionMapping
 	/*float Value = 10.5f;
 	 find out which way is forward
@@ -148,14 +150,14 @@ void AOedivXuejCharacter::JumpRoll()
 {
 	if (!Animation->IsRolling)
 	{
-		if (Energy >= 0.20) {
-			Info = "";
-			Jump();
-			Energy -= 0.20;
-			//UpdateEnergyPercent();
-		}
-		else
-			Info = "Not Enought Energy !";
+			if (Energy >= 0.20) {
+				Info = "";
+				Jump();
+				Energy -= 0.20;
+				UpdateEnergyPercent();
+			}
+			else
+				Info = "Not Enought Energy !";
 	}
 }
 

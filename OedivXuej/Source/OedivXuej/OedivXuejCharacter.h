@@ -40,6 +40,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Stats)
 	FString EnergyPercent;
 
+	UFUNCTION(BlueprintCallable, Category=Stats)
+	void RefillEnergy();
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -50,7 +53,6 @@ public:
 
 protected:
 
-	void RefillEnergy();
 	void UpdateEnergyPercent();
 	void UpdateHealthPercent();
 
