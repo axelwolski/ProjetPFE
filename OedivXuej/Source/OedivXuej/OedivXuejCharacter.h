@@ -14,11 +14,6 @@ class AOedivXuejCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	//virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
-
-	FTimerHandle UnusedHandle;
-
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
@@ -29,20 +24,6 @@ class AOedivXuejCharacter : public ACharacter
 public:
 	AOedivXuejCharacter();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Stats)
-	float Health;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Stats)
-	float Energy;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Stats)
-	FString Info;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Stats)
-	FString HealthPercent;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Stats)
-	FString EnergyPercent;
-
-	UFUNCTION(BlueprintCallable, Category=Stats)
-	void RefillEnergy();
-
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -50,6 +31,22 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		float Health;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		float Energy;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		FString Info;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		FString HealthPercent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		FString EnergyPercent;
+
+
+	UFUNCTION(BlueprintCallable, Category = Stats)
+		void RefillEnergy();
+
 
 protected:
 
@@ -68,14 +65,14 @@ protected:
 	void Roll();
 	void JumpRoll();
 
-	/**
-	 * Called via input to turn at a given rate.
+	/** 
+	 * Called via input to turn at a given rate. 
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void TurnAtRate(float Rate);
 
 	/**
-	 * Called via input to turn look up/down at a given rate.
+	 * Called via input to turn look up/down at a given rate. 
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
@@ -85,6 +82,8 @@ protected:
 
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+
+	virtual void Tick(float DeltaSeconds) override;
 
 	bool firstRight;
 	FVector precRight;
@@ -105,3 +104,4 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
+

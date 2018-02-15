@@ -13,6 +13,9 @@ class UAnimationCharacter : public UAnimInstance
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+		bool AnimationRolling;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
 		bool IsRolling;
 
 public:

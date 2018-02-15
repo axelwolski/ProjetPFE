@@ -37,7 +37,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...
+	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
@@ -45,7 +45,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character
+	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
@@ -58,7 +58,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 
 	UE_LOG(LogMyGame, Warning, TEXT("Hello"));
 
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character)
+	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
@@ -96,9 +96,34 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	Animation->NativeInitializeAnimation();
 }
 
-void AOedivXuejCharacter::Tick(float DeltaSeconds)
+void AOedivXuejCharacter::Roll()
 {
-	Super::Tick(DeltaSeconds);
+	Animation->IsRolling = true;
+	Animation->AnimationRolling = true;
+	if (Energy >= 0.25)
+	{
+		Animation->IsRolling = true;
+		Energy -= 0.25;
+		UpdateEnergyPercent();
+		Info = "";
+	}
+	else
+		Info = "Not Enought Energy !";
+}
+
+void AOedivXuejCharacter::JumpRoll() 
+{
+	if (!Animation->AnimationRolling)
+	{
+		if (Energy >= 0.20) {
+			Info = "";
+			Jump();
+			Energy -= 0.20;
+			UpdateEnergyPercent();
+		}
+		else
+			Info = "Not Enought Energy !";
+	}
 }
 
 void AOedivXuejCharacter::RefillEnergy()
@@ -120,46 +145,15 @@ void AOedivXuejCharacter::UpdateHealthPercent()
 	HealthPercent = FString::FromInt(Health * 100);
 }
 
-void AOedivXuejCharacter::Roll()
-{
-	if (!Animation->IsRolling) {
-		if (Energy >= 0.25)
-		{
-			Animation->IsRolling = true;
-			Energy -= 0.25;
-			UpdateEnergyPercent();
-			Info = "";
-		}
-		else
-			Info = "Not Enought Energy !";
-	}
-	//RemoveActionMapping
-	/*float Value = 10.5f;
-	 find out which way is forward
-	const FRotator Rotation = Controller->GetControlRotation();
-	const FRotator YawRotation(0, Rotation.Yaw, 0);
-	const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-
-	// get forward vector
-	 const FVector Direction = GetActorForwardVector();
-	 this->AddMovementInput(Direction, Value);*/
-
-}
-
-void AOedivXuejCharacter::JumpRoll()
-{
-	if (!Animation->IsRolling)
+void AOedivXuejCharacter::Tick(float DeltaSeconds) {
+	Super::Tick(DeltaSeconds);
+	if (Animation->IsRolling) 
 	{
-			if (Energy >= 0.20) {
-				Info = "";
-				Jump();
-				Energy -= 0.20;
-				UpdateEnergyPercent();
-			}
-			else
-				Info = "Not Enought Energy !";
+		FVector direction = GetActorForwardVector() * 7;
+		AddActorWorldOffset(direction, true);
 	}
 }
+
 
 void AOedivXuejCharacter::OnResetVR()
 {
@@ -192,7 +186,7 @@ void AOedivXuejCharacter::MoveForward(float Value)
 {
 	FVector newLocation = this->GetActorLocation();
 
-	if ((Controller != NULL) && (Value != 0.0f))
+	if ((Controller != NULL) && (Value != 0.0f) && !Animation->AnimationRolling)
 	{
 		if (firstForward)
 		{
@@ -224,7 +218,7 @@ void AOedivXuejCharacter::MoveRight(float Value)
 {
 	FVector newLocation = this->GetActorLocation();
 
-	if ( (Controller != NULL) && (Value != 0.0f) )
+	if ( (Controller != NULL) && (Value != 0.0f) && !Animation->AnimationRolling)
 	{
 
 		if (firstRight)
@@ -245,7 +239,7 @@ void AOedivXuejCharacter::MoveRight(float Value)
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// get right vector
+		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);

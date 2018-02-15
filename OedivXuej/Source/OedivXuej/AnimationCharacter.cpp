@@ -9,7 +9,6 @@ void UAnimationCharacter::NativeInitializeAnimation()
 
 	//Cache the owning pawn for use in Tick
 	OwningPawn = TryGetPawnOwner();
-	//IsRolling = false;
 }
 
 //Tick
