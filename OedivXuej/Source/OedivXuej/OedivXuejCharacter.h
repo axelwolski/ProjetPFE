@@ -24,6 +24,8 @@ class AOedivXuejCharacter : public ACharacter
 public:
 	AOedivXuejCharacter();
 
+	int canRoll;
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;

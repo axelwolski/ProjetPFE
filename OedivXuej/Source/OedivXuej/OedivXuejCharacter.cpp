@@ -56,6 +56,8 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	firstRight = true;
 	firstForward = true;
 
+	canRoll = 0;
+
 	UE_LOG(LogMyGame, Warning, TEXT("Hello"));
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
@@ -98,7 +100,7 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 void AOedivXuejCharacter::Roll()
 {
-	if (!Animation->IsRolling && !Animation->AnimationRolling)
+	if (!Animation->IsRolling && !Animation->AnimationRolling && canRoll == 0)
 	{
 		if (Energy >= 0.25)
 		{
@@ -107,16 +109,17 @@ void AOedivXuejCharacter::Roll()
 			Energy -= 0.25;
 			UpdateEnergyPercent();
 			Info = "";
+			canRoll = 150;
 		}
 		else
 			Info = "Not Enought Energy !";
 	}
 }
 
-void AOedivXuejCharacter::JumpRoll() 
+void AOedivXuejCharacter::JumpRoll()
 {
 	if (this->GetCharacterMovement()->Velocity.Z == 0)
-	{	
+	{
 		if (!Animation->AnimationRolling)
 		{
 			if (Energy >= 0.20) {
@@ -130,6 +133,7 @@ void AOedivXuejCharacter::JumpRoll()
 		}
 	}
 }
+
 
 void AOedivXuejCharacter::RefillEnergy()
 {
@@ -156,6 +160,10 @@ void AOedivXuejCharacter::Tick(float DeltaSeconds) {
 	{
 		FVector direction = GetActorForwardVector() * 7;
 		AddActorWorldOffset(direction, true);
+	}
+	if (canRoll > 0)
+	{
+		canRoll--;
 	}
 }
 
