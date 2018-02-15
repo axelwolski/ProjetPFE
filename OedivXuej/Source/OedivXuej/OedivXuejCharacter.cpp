@@ -115,16 +115,19 @@ void AOedivXuejCharacter::Roll()
 
 void AOedivXuejCharacter::JumpRoll() 
 {
-	if (!Animation->AnimationRolling)
-	{
-		if (Energy >= 0.20) {
-			Info = "";
-			Jump();
-			Energy -= 0.20;
-			UpdateEnergyPercent();
+	if (this->GetCharacterMovement()->Velocity.Z == 0)
+	{	
+		if (!Animation->AnimationRolling)
+		{
+			if (Energy >= 0.20) {
+				Info = "";
+				Jump();
+				Energy -= 0.20;
+				UpdateEnergyPercent();
+			}
+			else
+				Info = "Not Enought Energy !";
 		}
-		else
-			Info = "Not Enought Energy !";
 	}
 }
 
