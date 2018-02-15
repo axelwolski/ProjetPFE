@@ -106,6 +106,8 @@ void AOedivXuejCharacter::Roll()
 		{
 			Animation->IsRolling = true;
 			Animation->AnimationRolling = true;
+			FVector direction = GetActorForwardVector() * 7;
+			AddActorWorldOffset(direction, true);
 			Energy -= 0.25;
 			UpdateEnergyPercent();
 			Info = "";
@@ -133,7 +135,8 @@ void AOedivXuejCharacter::JumpRoll()
 		}
 	}
 }
-
+
+
 
 void AOedivXuejCharacter::RefillEnergy()
 {
@@ -158,8 +161,8 @@ void AOedivXuejCharacter::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 	if (Animation->IsRolling) 
 	{
-		FVector direction = GetActorForwardVector() * 7;
-		AddActorWorldOffset(direction, true);
+		//FVector direction = GetActorForwardVector() * 7;
+		//AddActorWorldOffset(direction, true);	
 	}
 	if (canRoll > 0)
 	{
