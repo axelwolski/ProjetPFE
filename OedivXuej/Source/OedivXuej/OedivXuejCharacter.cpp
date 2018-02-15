@@ -98,17 +98,19 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 void AOedivXuejCharacter::Roll()
 {
-	Animation->IsRolling = true;
-	Animation->AnimationRolling = true;
-	if (Energy >= 0.25)
+	if (!Animation->IsRolling && !Animation->AnimationRolling)
 	{
-		Animation->IsRolling = true;
-		Energy -= 0.25;
-		UpdateEnergyPercent();
-		Info = "";
+		if (Energy >= 0.25)
+		{
+			Animation->IsRolling = true;
+			Animation->AnimationRolling = true;
+			Energy -= 0.25;
+			UpdateEnergyPercent();
+			Info = "";
+		}
+		else
+			Info = "Not Enought Energy !";
 	}
-	else
-		Info = "Not Enought Energy !";
 }
 
 void AOedivXuejCharacter::JumpRoll() 
