@@ -13,5 +13,7 @@ class AOedivXuejGameMode : public AGameModeBase
 
 public:
 	AOedivXuejGameMode();
-	void PostLogin(APlayerController * NewPlayer);
 };
+
+
+
