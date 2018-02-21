@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AnimationCharacter.h"
+#include "Runtime/Engine/Classes/Animation/AnimInstance.h"
 #include "OedivXuejCharacter.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogMyGame, Log, All);
@@ -24,15 +25,13 @@ class AOedivXuejCharacter : public ACharacter
 public:
 	AOedivXuejCharacter();
 
-	int canRoll;
-
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	float BaseTurnRate;
+		float BaseTurnRate;
 
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	float BaseLookUpRate;
+		float BaseLookUpRate;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		float Health;
@@ -45,6 +44,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString EnergyPercent;
 
+	bool canRoll;
+	UAnimInstance* AnimInstance;
 
 	UFUNCTION(BlueprintCallable, Category = Stats)
 		void RefillEnergy();
@@ -64,7 +65,6 @@ protected:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
-	void Roll();
 	void JumpRoll();
 
 	/** 
@@ -85,7 +85,7 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
-	virtual void Tick(float DeltaSeconds) override;
+	virtual void Tick(float DeltaSeconds);
 
 	bool firstRight;
 	FVector precRight;
@@ -93,12 +93,27 @@ protected:
 	bool firstForward;
 	FVector precForward;
 
-	UAnimationCharacter * Animation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay, Replicated)
+		class UAnimMontage* RollAnimation;
+
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastSetRoll();
+		void MultiCastSetRoll_Implementation();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerSetRoll();
+		void ServerSetRoll_Implementation();
+		bool ServerSetRoll_Validate();
+
+	void SetRolling();
 
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
+	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
+
+	void OnRoll();
 
 public:
 	/** Returns CameraBoom subobject **/

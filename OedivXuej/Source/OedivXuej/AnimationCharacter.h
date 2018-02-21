@@ -24,4 +24,6 @@ public:
 	virtual void NativeInitializeAnimation() override;
 	virtual void NativeUpdateAnimation(float DeltaTimeX) override;
 
+	bool GetIsRolling();
+
 };

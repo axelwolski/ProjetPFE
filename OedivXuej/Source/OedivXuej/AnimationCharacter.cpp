@@ -24,3 +24,7 @@ void UAnimationCharacter::NativeUpdateAnimation(float DeltaTimeX)
 	}
 }
 
+bool UAnimationCharacter::GetIsRolling() {
+	return this->IsRolling;
+}
+

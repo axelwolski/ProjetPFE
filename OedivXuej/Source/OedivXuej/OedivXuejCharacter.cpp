@@ -7,6 +7,8 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
+#include "Runtime/Engine/Classes/Animation/AnimMontage.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "GameFramework/SpringArmComponent.h"
 
 DEFINE_LOG_CATEGORY(LogMyGame);
@@ -20,6 +22,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+	bReplicates = true;
 
 	// Initialize stats for our character
 	Health = 1.0f;
@@ -56,7 +59,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	firstRight = true;
 	firstForward = true;
 
-	canRoll = 0;
+	canRoll = true;
 
 	UE_LOG(LogMyGame, Warning, TEXT("Hello"));
 
@@ -74,7 +77,7 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AOedivXuejCharacter::JumpRoll);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	PlayerInputComponent->BindAction("Roll", IE_Pressed, this, &AOedivXuejCharacter::Roll);
+	PlayerInputComponent->BindAction("Roll", IE_Pressed, this, &AOedivXuejCharacter::OnRoll);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AOedivXuejCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AOedivXuejCharacter::MoveRight);
@@ -94,49 +97,22 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AOedivXuejCharacter::OnResetVR);
 
-	Animation = Cast<UAnimationCharacter>(GetMesh()->GetAnimInstance());
-	Animation->NativeInitializeAnimation();
 }
 
-void AOedivXuejCharacter::Roll()
+void AOedivXuejCharacter::JumpRoll()
 {
-	if (!Animation->IsRolling && !Animation->AnimationRolling && canRoll == 0)
+	if (this->GetCharacterMovement()->Velocity.Z == 0 && canRoll)
 	{
-		if (Energy >= 0.25)
-		{
-			Animation->IsRolling = true;
-			Animation->AnimationRolling = true;
-			FVector direction = GetActorForwardVector() * 7;
-			AddActorWorldOffset(direction, true);
-			Energy -= 0.25;
-			UpdateEnergyPercent();
+		if (Energy >= 0.20) {
 			Info = "";
-			canRoll = 150;
+			Jump();
+			Energy -= 0.20;
+			UpdateEnergyPercent();
 		}
 		else
 			Info = "Not Enought Energy !";
 	}
 }
-
-void AOedivXuejCharacter::JumpRoll()
-{
-	if (this->GetCharacterMovement()->Velocity.Z == 0)
-	{
-		if (!Animation->AnimationRolling)
-		{
-			if (Energy >= 0.20) {
-				Info = "";
-				Jump();
-				Energy -= 0.20;
-				UpdateEnergyPercent();
-			}
-			else
-				Info = "Not Enought Energy !";
-		}
-	}
-}
-
-
 
 void AOedivXuejCharacter::RefillEnergy()
 {
@@ -159,17 +135,14 @@ void AOedivXuejCharacter::UpdateHealthPercent()
 
 void AOedivXuejCharacter::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
-	if (Animation->IsRolling) 
-	{
-		//FVector direction = GetActorForwardVector() * 7;
-		//AddActorWorldOffset(direction, true);	
+	if (!canRoll) {
+		FVector direction = GetActorForwardVector() * 7.f;
+		AddActorWorldOffset(direction, true);
 	}
-	if (canRoll > 0)
-	{
-		canRoll--;
+	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(RollAnimation)) {
+		canRoll = true;
 	}
 }
-
 
 void AOedivXuejCharacter::OnResetVR()
 {
@@ -202,7 +175,7 @@ void AOedivXuejCharacter::MoveForward(float Value)
 {
 	FVector newLocation = this->GetActorLocation();
 
-	if ((Controller != NULL) && (Value != 0.0f) && !Animation->AnimationRolling)
+	if ((Controller != NULL) && (Value != 0.0f) && canRoll)
 	{
 		if (firstForward)
 		{
@@ -234,7 +207,7 @@ void AOedivXuejCharacter::MoveRight(float Value)
 {
 	FVector newLocation = this->GetActorLocation();
 
-	if ( (Controller != NULL) && (Value != 0.0f) && !Animation->AnimationRolling)
+	if ( (Controller != NULL) && (Value != 0.0f) && canRoll)
 	{
 
 		if (firstRight)
@@ -264,4 +237,61 @@ void AOedivXuejCharacter::MoveRight(float Value)
 
 	precRight = this->GetActorLocation();
 
+}
+
+void AOedivXuejCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+}
+
+void AOedivXuejCharacter::MultiCastSetRoll_Implementation()
+{
+	SetRolling();
+}
+
+void AOedivXuejCharacter::ServerSetRoll_Implementation()
+{
+	MultiCastSetRoll();
+}
+
+bool AOedivXuejCharacter::ServerSetRoll_Validate()
+{
+	return true;
+}
+
+void AOedivXuejCharacter::OnRoll()
+{
+	if (Energy >= 0.25)
+	{
+		if (canRoll){
+			Energy -= 0.25;
+			UpdateEnergyPercent();
+			Info = "";
+			if (HasAuthority())
+			{
+				SetRolling();
+			}
+			else
+			{
+				ServerSetRoll();
+			}
+		}
+	}
+	else
+		Info = "Not Enought Energy !";
+}
+
+void AOedivXuejCharacter::SetRolling()
+{
+	// try and play a firing animation if specified
+	if (RollAnimation != NULL)
+	{
+		AnimInstance = GetMesh()->GetAnimInstance();
+		// Get the animation object for the arms mesh
+		if (AnimInstance != NULL)
+		{
+			canRoll = false;
+			AnimInstance->Montage_Play(RollAnimation, 1.f);
+		}
+	}
 }

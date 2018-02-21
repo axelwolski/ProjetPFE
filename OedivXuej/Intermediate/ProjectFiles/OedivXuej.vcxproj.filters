@@ -4,7 +4,7 @@
 	<ItemGroup>
 		<None Include="..\..\OedivXuej.uproject" />
 		<Filter Include="Source">
-			<UniqueIdentifier>{FF2E9C17-5774-4EED-B238-252070BB91F6}</UniqueIdentifier>
+			<UniqueIdentifier>{7E4177D0-92F9-4281-B966-11D6FBDAD7A0}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Source\OedivXuej.Target.cs">
 			<Filter>Source</Filter>
@@ -13,7 +13,7 @@
 			<Filter>Source</Filter>
 		</None >
 		<Filter Include="Config">
-			<UniqueIdentifier>{DB38D303-6CDB-4553-92B3-AB2683B6C7E0}</UniqueIdentifier>
+			<UniqueIdentifier>{5FF50C72-A4D8-4765-B372-1C3C5EC701FE}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Config\DefaultEditor.ini">
 			<Filter>Config</Filter>
@@ -31,7 +31,7 @@
 			<Filter>Config</Filter>
 		</None >
 		<Filter Include="Source\OedivXuej">
-			<UniqueIdentifier>{25CD2FB8-0A26-44F0-A43B-C3CD79B12222}</UniqueIdentifier>
+			<UniqueIdentifier>{A5A4F767-8598-41D4-9C39-DE1728563D89}</UniqueIdentifier>
 		</Filter>
 		<ClCompile Include="..\..\Source\OedivXuej\AnimationCharacter.cpp">
 			<Filter>Source\OedivXuej</Filter>
@@ -64,6 +64,18 @@
 			<Filter>Source\OedivXuej</Filter>
 		</ClCompile >
 		<ClInclude Include="..\..\Source\OedivXuej\OedivXuejGameMode.h">
+			<Filter>Source\OedivXuej</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\OedivXuej\ReplicatedActor.cpp">
+			<Filter>Source\OedivXuej</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\OedivXuej\ReplicatedActor.h">
+			<Filter>Source\OedivXuej</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\OedivXuej\TestLevel.cpp">
+			<Filter>Source\OedivXuej</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\OedivXuej\TestLevel.h">
 			<Filter>Source\OedivXuej</Filter>
 		</ClInclude >
 	</ItemGroup>
