@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NetworkGameInstance.h"
 #include "GameFramework/GameModeBase.h"
 #include "OedivXuejGameMode.generated.h"
 
@@ -13,7 +14,5 @@ class AOedivXuejGameMode : public AGameModeBase
 
 public:
 	AOedivXuejGameMode();
+	void PostLogin(APlayerController * NewPlayer);
 };
-
-
-
