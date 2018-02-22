@@ -82,5 +82,9 @@ Build/*/**
 
 # SoulCity
 */Content/SoulCity/*
+
+# InfinityBladeAdversaries
+*/Content/InfinityBladeAdversaries/*
+
 *.vcxproj
 *.filters
