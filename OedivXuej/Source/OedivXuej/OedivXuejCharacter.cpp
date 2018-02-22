@@ -269,7 +269,7 @@ void AOedivXuejCharacter::OnRoll()
 			Info = "";
 			if (HasAuthority())
 			{
-				MultiCastSetRoll();
+				SetRolling();
 			}
 			else
 			{
