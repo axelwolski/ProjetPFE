@@ -60,6 +60,9 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	firstForward = true;
 
 	canRoll = true;
+	canStab = true;
+	canStabHigh = true;
+	canStabJump = true;
 
 	UE_LOG(LogMyGame, Warning, TEXT("Hello"));
 
@@ -78,6 +81,9 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	PlayerInputComponent->BindAction("Roll", IE_Pressed, this, &AOedivXuejCharacter::OnRoll);
+	PlayerInputComponent->BindAction("Stab", IE_Pressed, this, &AOedivXuejCharacter::OnStab);
+	PlayerInputComponent->BindAction("StabJump", IE_Pressed, this, &AOedivXuejCharacter::OnStabJump);
+	PlayerInputComponent->BindAction("StabHigh", IE_Pressed, this, &AOedivXuejCharacter::OnStabHigh);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AOedivXuejCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AOedivXuejCharacter::MoveRight);
@@ -101,7 +107,7 @@ void AOedivXuejCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 void AOedivXuejCharacter::JumpRoll()
 {
-	if (this->GetCharacterMovement()->Velocity.Z == 0 && canRoll)
+	if (this->GetCharacterMovement()->Velocity.Z == 0 && canMove())
 	{
 		if (Energy >= 0.20) {
 			Info = "";
@@ -139,9 +145,57 @@ void AOedivXuejCharacter::Tick(float DeltaSeconds) {
 		FVector direction = GetActorForwardVector() * 7.f;
 		AddActorWorldOffset(direction, true);
 	}
+	else if (!canStabHigh) {
+		FVector direction = GetActorForwardVector() * 8.f;
+		AddActorWorldOffset(direction, true);
+	}
 	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(RollAnimation)) {
 		canRoll = true;
 	}
+	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(StabAnimation)) {
+		canStab = true;
+	}
+	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(StabHighAnimation)) {
+		canStabHigh = true;
+	}
+	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(StabJumpAnimation)) {
+		canStabJump = true;
+	}
+
+
+	/*
+	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(firstStabAnimation) && continueStab && numberStab == 0) {
+	OnStab2(secondStabAnimation);
+	continueStab = false;
+	numberStab += 1;
+	}
+	else if (numberStab > 0 && !canStab) {
+	FVector direction = GetActorForwardVector() * 1.5f;
+	AddActorWorldOffset(direction, true);
+	}
+	else if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(secondStabAnimation) && numberStab == 1) {
+	continueStab = false;
+	canStab = true;
+	numberStab = 0;
+	moveStab = true;
+	}
+	else if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(secondStabAnimation) && continueStab && numberStab == 1) {
+	OnStab2(thirdStabAnimation);
+	continueStab = false;
+	numberStab += 1;
+	}
+	else if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(secondStabAnimation) && !continueStab && numberStab == 1) {
+	continueStab = false;
+	canStab = true;
+	numberStab = 0;
+	moveStab = true;
+	}
+	else if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(thirdStabAnimation) && numberStab == 2) {
+	continueStab = false;
+	canStab = true;
+	numberStab = 0;
+	moveStab = true;
+	}*/
 }
 
 void AOedivXuejCharacter::OnResetVR()
@@ -175,7 +229,7 @@ void AOedivXuejCharacter::MoveForward(float Value)
 {
 	FVector newLocation = this->GetActorLocation();
 
-	if ((Controller != NULL) && (Value != 0.0f) && canRoll)
+	if ((Controller != NULL) && (Value != 0.0f) && canMove())
 	{
 		if (firstForward)
 		{
@@ -207,7 +261,7 @@ void AOedivXuejCharacter::MoveRight(float Value)
 {
 	FVector newLocation = this->GetActorLocation();
 
-	if ( (Controller != NULL) && (Value != 0.0f) && canRoll)
+	if ( (Controller != NULL) && (Value != 0.0f) && canMove())
 	{
 
 		if (firstRight)
@@ -237,6 +291,10 @@ void AOedivXuejCharacter::MoveRight(float Value)
 
 	precRight = this->GetActorLocation();
 
+}
+
+bool AOedivXuejCharacter::canMove() {
+	return canStab && canRoll && canStabHigh && canStabJump;
 }
 
 void AOedivXuejCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
@@ -269,7 +327,7 @@ void AOedivXuejCharacter::OnRoll()
 			Info = "";
 			if (HasAuthority())
 			{
-				SetRolling();
+				MultiCastSetRoll();
 			}
 			else
 			{
@@ -291,7 +349,195 @@ void AOedivXuejCharacter::SetRolling()
 		if (AnimInstance != NULL)
 		{
 			canRoll = false;
-			AnimInstance->Montage_Play(RollAnimation, 1.f);
+			AnimInstance->Montage_Play(RollAnimation, 2.f);
+		}
+	}
+}
+
+// Animation Stab
+void AOedivXuejCharacter::MultiCastSetStab_Implementation(UAnimMontage* animStab)
+{
+	SetStab(animStab);
+}
+
+void AOedivXuejCharacter::ServerSetStab_Implementation(UAnimMontage* animStab)
+{
+	MultiCastSetStab(animStab);
+}
+
+bool AOedivXuejCharacter::ServerSetStab_Validate(UAnimMontage* animStab)
+{
+	return true;
+}
+
+void AOedivXuejCharacter::OnStab()
+{
+	if (Energy >= 0.05)
+	{
+
+		if (canMove()) {
+			Energy -= 0.05;
+			UpdateEnergyPercent();
+			Info = "";
+			if (HasAuthority())
+			{
+				MultiCastSetStab(StabAnimation);
+			}
+			else
+			{
+				ServerSetStab(StabAnimation);
+			}
+		}
+		/*else if (!canStab) {
+		continueStab = true;
+		}*/
+	}
+	else
+		Info = "Not Enought Energy !";
+}
+
+/*
+void AOedivXuejCharacter::OnStab2(UAnimMontage* animStab)
+{
+if (Energy >= 0.05)
+{
+Energy -= 0.05;
+UpdateEnergyPercent();
+Info = "";
+if (HasAuthority())
+{
+SetStab(animStab);
+}
+else
+{
+ServerSetStab(animStab);
+}
+}
+else
+Info = "Not Enought Energy !";
+}*/
+
+
+void AOedivXuejCharacter::SetStab(UAnimMontage* animStab)
+{
+	// try and play a firing animation if specified
+	if (animStab != NULL)
+	{
+		AnimInstance = GetMesh()->GetAnimInstance();
+		// Get the animation object for the arms mesh
+		if (AnimInstance != NULL)
+		{
+			AnimInstance->Montage_Play(animStab, 1.f);
+			canStab = false;
+		}
+	}
+}
+
+//Attack High Stab
+void AOedivXuejCharacter::MultiCastSetStabHigh_Implementation()
+{
+	SetStabHigh();
+}
+
+void AOedivXuejCharacter::ServerSetStabHigh_Implementation()
+{
+	MultiCastSetStabHigh();
+}
+
+bool AOedivXuejCharacter::ServerSetStabHigh_Validate()
+{
+	return true;
+}
+
+void AOedivXuejCharacter::OnStabHigh()
+{
+	if (Energy >= 0.10)
+	{
+		float ws = FVector::DotProduct(GetVelocity(), GetActorRotation().Vector());
+		if (canMove() && ws > 500) {
+			Energy -= 0.10;
+			UpdateEnergyPercent();
+			Info = "";
+			if (HasAuthority())
+			{
+				MultiCastSetStabHigh();
+			}
+			else
+			{
+				ServerSetStabHigh();
+			}
+		}
+	}
+	else
+		Info = "Not Enought Energy !";
+}
+
+void AOedivXuejCharacter::SetStabHigh()
+{
+	// try and play a firing animation if specified
+	if (StabHighAnimation != NULL)
+	{
+		AnimInstance = GetMesh()->GetAnimInstance();
+		// Get the animation object for the arms mesh
+		if (AnimInstance != NULL)
+		{
+			AnimInstance->Montage_Play(StabHighAnimation, 1.f);
+			canStabHigh = false;
+		}
+	}
+}
+
+//Attack Jump Stab
+void AOedivXuejCharacter::MultiCastSetStabJump_Implementation()
+{
+	SetStabJump();
+}
+
+void AOedivXuejCharacter::ServerSetStabJump_Implementation()
+{
+	MultiCastSetStabJump();
+}
+
+bool AOedivXuejCharacter::ServerSetStabJump_Validate()
+{
+	return true;
+}
+
+void AOedivXuejCharacter::OnStabJump()
+{
+	if (Energy >= 0.10)
+	{
+		float ws = FVector::DotProduct(GetVelocity(), GetActorRotation().Vector());
+		if (canMove() && ws > 500) {
+			Energy -= 0.10;
+			UpdateEnergyPercent();
+			Info = "";
+			if (HasAuthority())
+			{
+				MultiCastSetStabJump();
+			}
+			else
+			{
+				ServerSetStabJump();
+			}
+		}
+	}
+	else
+		Info = "Not Enought Energy !";
+}
+
+void AOedivXuejCharacter::SetStabJump()
+{
+	// try and play a firing animation if specified
+	if (StabJumpAnimation != NULL)
+	{
+		AnimInstance = GetMesh()->GetAnimInstance();
+		// Get the animation object for the arms mesh
+		if (AnimInstance != NULL)
+		{
+			Jump();
+			AnimInstance->Montage_Play(StabJumpAnimation, 1.f);
+			canStabJump = false;
 		}
 	}
 }

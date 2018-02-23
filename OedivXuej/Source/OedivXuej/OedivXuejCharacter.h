@@ -44,9 +44,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString EnergyPercent;
 
-	bool canRoll;
-	UAnimInstance* AnimInstance;
-
 	UFUNCTION(BlueprintCallable, Category = Stats)
 		void RefillEnergy();
 
@@ -93,27 +90,85 @@ protected:
 	bool firstForward;
 	FVector precForward;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay, Replicated)
-		class UAnimMontage* RollAnimation;
+	UAnimInstance* AnimInstance;
+	bool canMove();
 
+	//Animation Roll
 	UFUNCTION(NetMulticast, Unreliable)
 		void MultiCastSetRoll();
-		void MultiCastSetRoll_Implementation();
+	void MultiCastSetRoll_Implementation();
 
 	UFUNCTION(Server, Reliable, WithValidation)
 		void ServerSetRoll();
-		void ServerSetRoll_Implementation();
-		bool ServerSetRoll_Validate();
+	void ServerSetRoll_Implementation();
+	bool ServerSetRoll_Validate();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay, Replicated)
+		class UAnimMontage* RollAnimation;
+
+	void OnRoll();
 	void SetRolling();
+	bool canRoll;
+
+	//Animation Stab
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastSetStab(UAnimMontage* animStab);
+	void MultiCastSetStab_Implementation(UAnimMontage* animStab);
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerSetStab(UAnimMontage* animStab);
+	void ServerSetStab_Implementation(UAnimMontage* animStab);
+	bool ServerSetStab_Validate(UAnimMontage* animStab);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay, Replicated)
+		class UAnimMontage* StabAnimation;
+
+	void OnStab();
+	void SetStab(UAnimMontage* animStab);
+	bool canStab;
+	/*int numberStab;
+	bool continueStab;
+	bool moveStab;*/
+
+	//Animation High Stab
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastSetStabHigh();
+	void MultiCastSetStabHigh_Implementation();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerSetStabHigh();
+	void ServerSetStabHigh_Implementation();
+	bool ServerSetStabHigh_Validate();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay, Replicated)
+		class UAnimMontage* StabHighAnimation;
+
+	void OnStabHigh();
+	void SetStabHigh();
+	bool canStabHigh;
+
+	//Animation Jump Stab
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastSetStabJump();
+	void MultiCastSetStabJump_Implementation();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerSetStabJump();
+	void ServerSetStabJump_Implementation();
+	bool ServerSetStabJump_Validate();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay, Replicated)
+		class UAnimMontage* StabJumpAnimation;
+
+	void OnStabJump();
+	void SetStabJump();
+	bool canStabJump;
 
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
 	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
-
-	void OnRoll();
 
 public:
 	/** Returns CameraBoom subobject **/
