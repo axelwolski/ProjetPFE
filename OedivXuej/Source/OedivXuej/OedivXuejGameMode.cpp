@@ -28,7 +28,7 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 			{
 				for (int32 i = 0; i != ActorList.Num(); i++)
 				{
-					if(ActorList[i]->GetActorLabel() == "ArenaV1_Lobby_Door_BP")
+					if(ActorList[i]->GetName() == "ArenaV1_Lobby_Door_BP_180")
 					{
 						if(ActorList[i]->Destroy())
 						{
