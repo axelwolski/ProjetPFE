@@ -142,7 +142,7 @@ void AOedivXuejCharacter::UpdateHealthPercent()
 void AOedivXuejCharacter::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 	if (!canRoll) {
-		FVector direction = GetActorForwardVector() * 7.f;
+		FVector direction = GetActorForwardVector() * 10.f;
 		AddActorWorldOffset(direction, true);
 	}
 	else if (!canStabHigh) {
@@ -349,7 +349,7 @@ void AOedivXuejCharacter::SetRolling()
 		if (AnimInstance != NULL)
 		{
 			canRoll = false;
-			AnimInstance->Montage_Play(RollAnimation, 2.f);
+			AnimInstance->Montage_Play(RollAnimation, 1.6f);
 		}
 	}
 }
@@ -427,7 +427,7 @@ void AOedivXuejCharacter::SetStab(UAnimMontage* animStab)
 		// Get the animation object for the arms mesh
 		if (AnimInstance != NULL)
 		{
-			AnimInstance->Montage_Play(animStab, 1.f);
+			AnimInstance->Montage_Play(animStab, 1.5f);
 			canStab = false;
 		}
 	}
