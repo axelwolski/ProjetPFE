@@ -4,7 +4,7 @@
 	<ItemGroup>
 		<None Include="..\..\OedivXuej.uproject" />
 		<Filter Include="Source">
-			<UniqueIdentifier>{7E4177D0-92F9-4281-B966-11D6FBDAD7A0}</UniqueIdentifier>
+			<UniqueIdentifier>{38CD2294-B30B-4C2E-9971-157359CEA9E7}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Source\OedivXuej.Target.cs">
 			<Filter>Source</Filter>
@@ -13,7 +13,7 @@
 			<Filter>Source</Filter>
 		</None >
 		<Filter Include="Config">
-			<UniqueIdentifier>{5FF50C72-A4D8-4765-B372-1C3C5EC701FE}</UniqueIdentifier>
+			<UniqueIdentifier>{F4D80AEA-55C6-49CF-B0A1-96D8C05794E4}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Config\DefaultEditor.ini">
 			<Filter>Config</Filter>
@@ -31,12 +31,24 @@
 			<Filter>Config</Filter>
 		</None >
 		<Filter Include="Source\OedivXuej">
-			<UniqueIdentifier>{A5A4F767-8598-41D4-9C39-DE1728563D89}</UniqueIdentifier>
+			<UniqueIdentifier>{094F1694-C1FC-4144-B178-63835F8B5071}</UniqueIdentifier>
 		</Filter>
 		<ClCompile Include="..\..\Source\OedivXuej\AnimationCharacter.cpp">
 			<Filter>Source\OedivXuej</Filter>
 		</ClCompile >
 		<ClInclude Include="..\..\Source\OedivXuej\AnimationCharacter.h">
+			<Filter>Source\OedivXuej</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\OedivXuej\Boss1.cpp">
+			<Filter>Source\OedivXuej</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\OedivXuej\Boss1.h">
+			<Filter>Source\OedivXuej</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\OedivXuej\Boss2.cpp">
+			<Filter>Source\OedivXuej</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\OedivXuej\Boss2.h">
 			<Filter>Source\OedivXuej</Filter>
 		</ClInclude >
 		<ClCompile Include="..\..\Source\OedivXuej\NetworkGameInstance.cpp">
@@ -64,12 +76,6 @@
 			<Filter>Source\OedivXuej</Filter>
 		</ClCompile >
 		<ClInclude Include="..\..\Source\OedivXuej\OedivXuejGameMode.h">
-			<Filter>Source\OedivXuej</Filter>
-		</ClInclude >
-		<ClCompile Include="..\..\Source\OedivXuej\ReplicatedActor.cpp">
-			<Filter>Source\OedivXuej</Filter>
-		</ClCompile >
-		<ClInclude Include="..\..\Source\OedivXuej\ReplicatedActor.h">
 			<Filter>Source\OedivXuej</Filter>
 		</ClInclude >
 		<ClCompile Include="..\..\Source\OedivXuej\TestLevel.cpp">

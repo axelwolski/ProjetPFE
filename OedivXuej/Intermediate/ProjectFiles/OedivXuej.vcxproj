@@ -417,6 +417,10 @@
 		<None Include="..\..\Config\DefaultInput.ini" />
 		<ClCompile Include="..\..\Source\OedivXuej\AnimationCharacter.cpp" />
 		<ClInclude Include="..\..\Source\OedivXuej\AnimationCharacter.h" />
+		<ClCompile Include="..\..\Source\OedivXuej\Boss1.cpp" />
+		<ClInclude Include="..\..\Source\OedivXuej\Boss1.h" />
+		<ClCompile Include="..\..\Source\OedivXuej\Boss2.cpp" />
+		<ClInclude Include="..\..\Source\OedivXuej\Boss2.h" />
 		<ClCompile Include="..\..\Source\OedivXuej\NetworkGameInstance.cpp" />
 		<ClInclude Include="..\..\Source\OedivXuej\NetworkGameInstance.h" />
 		<None Include="..\..\Source\OedivXuej\OedivXuej.Build.cs" />
@@ -426,8 +430,6 @@
 		<ClInclude Include="..\..\Source\OedivXuej\OedivXuejCharacter.h" />
 		<ClCompile Include="..\..\Source\OedivXuej\OedivXuejGameMode.cpp" />
 		<ClInclude Include="..\..\Source\OedivXuej\OedivXuejGameMode.h" />
-		<ClCompile Include="..\..\Source\OedivXuej\ReplicatedActor.cpp" />
-		<ClInclude Include="..\..\Source\OedivXuej\ReplicatedActor.h" />
 		<ClCompile Include="..\..\Source\OedivXuej\TestLevel.cpp" />
 		<ClInclude Include="..\..\Source\OedivXuej\TestLevel.h" />
 	</ItemGroup>
