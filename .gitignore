@@ -89,3 +89,7 @@ Build/*/**
 
 *.vcxproj
 *.filters
+
+# Error logs for beta tests
+*/Error.log
+

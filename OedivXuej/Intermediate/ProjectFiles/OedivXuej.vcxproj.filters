@@ -4,7 +4,7 @@
 	<ItemGroup>
 		<None Include="..\..\OedivXuej.uproject" />
 		<Filter Include="Source">
-			<UniqueIdentifier>{38CD2294-B30B-4C2E-9971-157359CEA9E7}</UniqueIdentifier>
+			<UniqueIdentifier>{BB83B383-1019-4161-A630-95AF231AA28A}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Source\OedivXuej.Target.cs">
 			<Filter>Source</Filter>
@@ -13,7 +13,7 @@
 			<Filter>Source</Filter>
 		</None >
 		<Filter Include="Config">
-			<UniqueIdentifier>{F4D80AEA-55C6-49CF-B0A1-96D8C05794E4}</UniqueIdentifier>
+			<UniqueIdentifier>{15C8D72B-F52E-44E6-A2B8-6CE38F6CAFC6}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Config\DefaultEditor.ini">
 			<Filter>Config</Filter>
@@ -31,7 +31,7 @@
 			<Filter>Config</Filter>
 		</None >
 		<Filter Include="Source\OedivXuej">
-			<UniqueIdentifier>{094F1694-C1FC-4144-B178-63835F8B5071}</UniqueIdentifier>
+			<UniqueIdentifier>{48F8B177-8521-4E5F-ABB3-1D7931465A10}</UniqueIdentifier>
 		</Filter>
 		<ClCompile Include="..\..\Source\OedivXuej\AnimationCharacter.cpp">
 			<Filter>Source\OedivXuej</Filter>
@@ -49,6 +49,12 @@
 			<Filter>Source\OedivXuej</Filter>
 		</ClCompile >
 		<ClInclude Include="..\..\Source\OedivXuej\Boss2.h">
+			<Filter>Source\OedivXuej</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\OedivXuej\ErrorLog.cpp">
+			<Filter>Source\OedivXuej</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\OedivXuej\ErrorLog.h">
 			<Filter>Source\OedivXuej</Filter>
 		</ClInclude >
 		<ClCompile Include="..\..\Source\OedivXuej\NetworkGameInstance.cpp">
