@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Runtime/AIModule/Classes/AIController.h"
+#include "Runtime/Core/Public/Math/Vector.h"
+#include "AIControllerBoss2.h"
 #include "Boss2.generated.h"
 
 UCLASS()
@@ -19,13 +22,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	
-	
 };
