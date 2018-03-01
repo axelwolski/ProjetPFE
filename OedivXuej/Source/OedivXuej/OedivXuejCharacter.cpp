@@ -112,7 +112,7 @@ void AOedivXuejCharacter::JumpRoll()
 		if (Energy >= 0.20) {
 			Info = "";
 			Jump();
-			Energy -= 0.20;
+			SetEnergy(-0.20);
 			UpdateEnergyPercent();
 		}
 		else
@@ -322,7 +322,7 @@ void AOedivXuejCharacter::OnRoll()
 	if (Energy >= 0.25)
 	{
 		if (canRoll){
-			Energy -= 0.25;
+			SetEnergy(-0.25);
 			UpdateEnergyPercent();
 			Info = "";
 			if (HasAuthority())
@@ -376,7 +376,7 @@ void AOedivXuejCharacter::OnStab()
 	{
 
 		if (canMove()) {
-			Energy -= 0.05;
+			SetEnergy(-0.05);
 			UpdateEnergyPercent();
 			Info = "";
 			if (HasAuthority())
@@ -455,7 +455,7 @@ void AOedivXuejCharacter::OnStabHigh()
 	{
 		float ws = FVector::DotProduct(GetVelocity(), GetActorRotation().Vector());
 		if (canMove() && ws > 500) {
-			Energy -= 0.10;
+			SetEnergy(-0.10);
 			UpdateEnergyPercent();
 			Info = "";
 			if (HasAuthority())
@@ -509,7 +509,7 @@ void AOedivXuejCharacter::OnStabJump()
 	{
 		float ws = FVector::DotProduct(GetVelocity(), GetActorRotation().Vector());
 		if (canMove() && ws > 500) {
-			Energy -= 0.10;
+			SetEnergy(-0.10);
 			UpdateEnergyPercent();
 			Info = "";
 			if (HasAuthority())
@@ -626,4 +626,7 @@ void AOedivXuejCharacter::SetStabJump()
 			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Jump when no energy : FAIL")));
 		else
 			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Jump when no energy : OK")));
+
+		SetEnergy(1.0);
+		UpdateEnergyPercent();
 	}
