@@ -46,7 +46,17 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Stats)
 		void RefillEnergy();
+	UFUNCTION(BlueprintCallable, Category = Stats)
+		void SetEnergy(float EnergyChange);
+	UFUNCTION(BlueprintCallable, Category = Stats)
+		void SetHealth(float HealthChange);
 
+	UFUNCTION(BlueprintCallable, Category = Tests)
+		void TestStats();
+	UFUNCTION(BlueprintCallable, Category = Tests)
+		void TestHealth();
+	UFUNCTION(BlueprintCallable, Category = Tests)
+		void TestEnergy();
 
 protected:
 
@@ -64,14 +74,14 @@ protected:
 
 	void JumpRoll();
 
-	/** 
-	 * Called via input to turn at a given rate. 
+	/**
+	 * Called via input to turn at a given rate.
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void TurnAtRate(float Rate);
 
 	/**
-	 * Called via input to turn look up/down at a given rate. 
+	 * Called via input to turn look up/down at a given rate.
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
@@ -176,4 +186,3 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
-

@@ -40,7 +40,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
+	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
@@ -48,7 +48,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
+	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
@@ -66,7 +66,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 
 	UE_LOG(LogMyGame, Warning, TEXT("Hello"));
 
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
+	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character)
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
@@ -124,7 +124,7 @@ void AOedivXuejCharacter::RefillEnergy()
 {
 	if (Energy < 1.0)
 	{
-		Energy += 0.05;
+		Energy += 0.005;
 		UpdateEnergyPercent();
 	}
 }
@@ -282,7 +282,7 @@ void AOedivXuejCharacter::MoveRight(float Value)
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// get right vector 
+		// get right vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
@@ -541,3 +541,89 @@ void AOedivXuejCharacter::SetStabJump()
 		}
 	}
 }
+
+	void AOedivXuejCharacter::SetEnergy(float EnergyChange)
+	{
+		float NewEnergy = Energy + EnergyChange;
+		if (NewEnergy >= 0.0 && NewEnergy <= 1.0)
+			Energy = NewEnergy;
+		else if (NewEnergy < 0.0)
+			Energy = 0.0;
+		else
+			Energy = 1.0;
+	}
+
+	void AOedivXuejCharacter::SetHealth(float HealthChange)
+	{
+		float NewHealth = Health + HealthChange;
+		if (NewHealth >= 0.0 && NewHealth <= 1.0)
+			Health = NewHealth;
+		else if (NewHealth < 0.0)
+			Health = 0.0;
+		else
+			Health = 1.0;
+	}
+
+	/* **************** TEST ***************************** */
+
+	void AOedivXuejCharacter::TestStats()
+	{
+		TestHealth();
+		TestEnergy();
+	}
+
+	void AOedivXuejCharacter::TestHealth()
+	{
+		if (Health != 1.0)
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Health start value : FAIL")));
+		else
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Health start value : 1.0 OK")));
+
+		SetHealth(2.0);
+		if (Health != 1.0)
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Health max value : FAIL")));
+		else
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Health max value : 1.0 OK")));
+
+		SetHealth(-2.0);
+		if (Health != 0.0)
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Health min value : FAIL")));
+		else
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Health min value : 0.0 OK")));
+
+		SetHealth(1.0);
+	}
+
+	void AOedivXuejCharacter::TestEnergy()
+	{
+		if (Energy != 1.0)
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy start value : FAIL")));
+		else
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy start value : 1.0 OK")));
+
+		SetEnergy(2.0);
+		if (Energy != 1.0)
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy max value : FAIL")));
+		else
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy max value : 1.0 OK")));
+
+		SetEnergy(-2.0);
+		if (Energy != 0.0)
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy min value : FAIL")));
+		else
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy min value : 0.0 OK")));
+
+		SetEnergy(1.0);
+		JumpRoll();
+		if (Energy < 0.8 || Energy > 0.85)
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy after jump : FAIL")));
+		else
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy after jump : 0.8 OK")));
+
+		SetEnergy(-1.0);
+		JumpRoll();
+		if (GetCharacterMovement()->Velocity.Z != 0 || Energy < 0.0)
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Jump when no energy : FAIL")));
+		else
+			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Jump when no energy : OK")));
+	}
