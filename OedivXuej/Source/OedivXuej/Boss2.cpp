@@ -8,6 +8,8 @@ ABoss2::ABoss2()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	Health = 1.0f;
+	Name = "Forge Master";
 }
 
 // Called when the game starts or when spawned
@@ -30,4 +32,3 @@ void ABoss2::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
-

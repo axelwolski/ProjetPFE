@@ -64,6 +64,8 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	canStabHigh = true;
 	canStabJump = true;
 
+	IsAttacking = false;
+
 	UE_LOG(LogMyGame, Warning, TEXT("Hello"));
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character)
@@ -160,6 +162,19 @@ void AOedivXuejCharacter::Tick(float DeltaSeconds) {
 	}
 	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(StabJumpAnimation)) {
 		canStabJump = true;
+	}
+
+	if (AnimInstance != NULL && AnimInstance->Montage_IsPlaying(StabAnimation)) {
+		IsAttacking = true;
+	}
+	if (AnimInstance != NULL && AnimInstance->Montage_IsPlaying(StabHighAnimation)) {
+		IsAttacking = true;
+	}
+	if (AnimInstance != NULL && AnimInstance->Montage_IsPlaying(StabJumpAnimation)) {
+		IsAttacking = true;
+	}
+	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(StabAnimation) && !AnimInstance->Montage_IsPlaying(StabHighAnimation) && !AnimInstance->Montage_IsPlaying(StabJumpAnimation)) {
+		IsAttacking = false;
 	}
 
 

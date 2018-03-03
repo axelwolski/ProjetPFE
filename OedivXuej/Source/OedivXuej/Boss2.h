@@ -26,6 +26,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		float Health;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		FString Name;
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 };
