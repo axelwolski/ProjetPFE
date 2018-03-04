@@ -53,6 +53,10 @@ public:
 		void SetEnergy(float EnergyChange);
 	UFUNCTION(BlueprintCallable, Category = Stats)
 		void SetHealth(float HealthChange);
+	UFUNCTION(BlueprintCallable, Category = Stats)
+		void UpdateEnergyPercent();
+	UFUNCTION(BlueprintCallable, Category = Stats)
+		void UpdateHealthPercent();
 
 	UFUNCTION(BlueprintCallable, Category = Tests)
 		void TestStats();
@@ -62,9 +66,6 @@ public:
 		void TestEnergy();
 
 protected:
-
-	void UpdateEnergyPercent();
-	void UpdateHealthPercent();
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
