@@ -29,6 +29,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		float Health;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		bool StartFight;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString Name;
 
 	// Called to bind functionality to input
