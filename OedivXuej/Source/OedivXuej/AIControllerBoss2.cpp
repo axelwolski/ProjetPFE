@@ -1,6 +1,9 @@
 
 //#include "SideScrollerConcept.h"
 #include "AIControllerBoss2.h"
+#include "Runtime/Engine/Public/EngineUtils.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Classes/Engine/Engine.h"
 //#include "SideScrollerConceptCharacter.h"
 
 
@@ -9,29 +12,45 @@ AAIControllerBoss2::AAIControllerBoss2(const FObjectInitializer& ObjectInitializ
 	BlackboardComp = ObjectInitializer.CreateDefaultSubobject<UBlackboardComponent>(this, TEXT("BlackBoardComp"));
 
 	BehaviorComp = ObjectInitializer.CreateDefaultSubobject<UBehaviorTreeComponent>(this, TEXT("BehaviorComp"));
+	
+	/*int sizeActors = 0;
+	for (TActorIterator<AOedivXuejCharacter> It(GetWorld()); It; ++It)
+	{
+		sizeActors++;
+		tabCharacter.Add(*It);
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(tabCharacter.Max()));*/
 }
 
 void AAIControllerBoss2::Possess(class APawn* InPawn)
 {
 	Super::Possess(InPawn);
-	/*ACorruptBot* Bot = Cast<ACorruptBot>(InPawn);
-	if (Bot && Bot->BotBehavior)
-	{
-		BlackboardComp->InitializeBlackboard(Bot->BotBehavior->BlackboardAsset);
-
-		EnemyKeyID = BlackboardComp->GetKeyID("Enemy");
-		EnemyLocationID = BlackboardComp->GetKeyID("Destination");
-
-		BehaviorComp->StartTree(Bot->BotBehavior);
-	}
-	*/
+	//MoveToLocation(tabCharacter[0]->GetActorLocation(), 100.f);
 }
 
 void AAIControllerBoss2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	MoveToLocation(ActorPos, 100.0f);
+	if (!RecupActor) 
+	{
+		MoveToCharacter();
+	}
+}
 
+void AAIControllerBoss2::MoveToCharacter() 
+{
+	float DistMin = FVector::Distance(TabCharacter[0]->GetActorLocation(), BossPos);
+	int Index = 0;
+	for (int i = 1; i < TabCharacter.Max(); ++i)
+	{
+		float TmpDist = FVector::Distance(TabCharacter[i]->GetActorLocation(), BossPos);
+		if (DistMin > TmpDist)
+		{
+			DistMin = TmpDist;
+			Index = i;
+		}
+	}
+	MoveToLocation(TabCharacter[Index]->GetActorLocation(), 100.f);
 }
 
 void AAIControllerBoss2::SearchForEnemy()

@@ -4,8 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Boss2.h"
 #include "Runtime/AIModule/Classes/BehaviorTree/BlackboardComponent.h"
 #include "Runtime/AIModule/Classes/BehaviorTree/BehaviorTreeComponent.h"
+#include "Runtime/Core/Public/Containers/Array.h"
+#include "Runtime/Engine/Classes/GameFramework/Actor.h"
+#include "OedivXuejCharacter.h"
 #include "AIControllerBoss2.generated.h"
 
 /**
@@ -25,6 +29,9 @@ public:
 		UPROPERTY(transient)
 			UBehaviorTreeComponent* BehaviorComp;
 	
+		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, category = Info)
+			TArray<AOedivXuejCharacter*> TabCharacter;
+
 		virtual void Possess(APawn *InPawn);
 
 		void SetEnemy(APawn* InPawn);
@@ -35,7 +42,13 @@ public:
 		virtual void Tick(float DeltaSeconds) override;
 
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
-			FVector ActorPos;
+			bool RecupActor = true;
+
+		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+			FVector BossPos;
+
+		UFUNCTION(BlueprintCallable, Category = Behavior)
+			void MoveToCharacter();
 
 protected:
 	uint8 EnemyKeyID;

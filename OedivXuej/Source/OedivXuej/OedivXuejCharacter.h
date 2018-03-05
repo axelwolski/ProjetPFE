@@ -107,6 +107,9 @@ protected:
 	UAnimInstance* AnimInstance;
 	bool canMove();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Level, Replicated)
+		bool OnArena;
+
 	//Animation Roll
 	UFUNCTION(NetMulticast, Unreliable)
 		void MultiCastSetRoll();
