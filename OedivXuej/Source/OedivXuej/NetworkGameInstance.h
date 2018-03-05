@@ -67,6 +67,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category="Network")
 		bool bMultiPlayerGame;
+	UPROPERTY(BlueprintReadWrite, Category="Network")
+		int MaxNumPlayers;
 
 private:
 	bool bSearchDone; //a search needs to be done before tring to join

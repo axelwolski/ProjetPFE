@@ -5,7 +5,7 @@
 
 #define TEST 1
 
-UNetworkGameInstance::UNetworkGameInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), bSearchDone(false), bTestCreateActivated(false), bTestCreateOtherSession(false), bTestJoinActivated(false), bMultiPlayerGame(false) {
+UNetworkGameInstance::UNetworkGameInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), bSearchDone(false), bTestCreateActivated(false), bTestCreateOtherSession(false), bTestJoinActivated(false), bMultiPlayerGame(false), MaxNumPlayers(4) {
 	// Binding de delegates
 	OnCreateSessionCompleteDelegate = FOnCreateSessionCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnCreateSessionComplete);
 	OnStartSessionCompleteDelegate = FOnStartSessionCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnStartOnlineGameComplete);
@@ -14,18 +14,21 @@ UNetworkGameInstance::UNetworkGameInstance(const FObjectInitializer& ObjectIniti
 	OnDestroySessionCompleteDelegate = FOnDestroySessionCompleteDelegate::CreateUObject(this, &UNetworkGameInstance::OnDestroySessionComplete);
 }
 
-void UNetworkGameInstance::StartOnlineGame() {
+void UNetworkGameInstance::StartOnlineGame()
+{
 	ULocalPlayer* const Player = GetFirstGamePlayer();
 	HostSession(Player->GetPreferredUniqueNetId(), GameSessionName, true, true, 4);
 }
 
-void UNetworkGameInstance::FindOnlineGames() {
+void UNetworkGameInstance::FindOnlineGames()
+{
 	ULocalPlayer* const Player = GetFirstGamePlayer();
 	FindSessions(Player->GetPreferredUniqueNetId(), true, true);
 	bSearchDone = true;
 }
 
-void UNetworkGameInstance::JoinOnlineGame() {
+void UNetworkGameInstance::JoinOnlineGame()
+{
 	ULocalPlayer* const Player = GetFirstGamePlayer();
 	FOnlineSessionSearchResult SearchResult;
 
@@ -65,7 +68,8 @@ void UNetworkGameInstance::DestroySessionAndLeaveGame() {
 	}
 }
 
-bool UNetworkGameInstance::HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers) {
+bool UNetworkGameInstance::HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers)
+{
 	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
 	if (OnlineSub)
 	{
@@ -102,7 +106,8 @@ bool UNetworkGameInstance::HostSession(TSharedPtr<const FUniqueNetId> UserId, FN
 	return false;
 }
 
-void UNetworkGameInstance::OnCreateSessionComplete(FName SessionName, bool bWasSuccessful) {
+void UNetworkGameInstance::OnCreateSessionComplete(FName SessionName, bool bWasSuccessful)
+{
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OnCreateSessionComplete %s, %d"), *SessionName.ToString(), bWasSuccessful));
 
 	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
@@ -139,7 +144,8 @@ void UNetworkGameInstance::OnCreateSessionComplete(FName SessionName, bool bWasS
 	}
 }
 
-void UNetworkGameInstance::OnStartOnlineGameComplete(FName SessionName, bool bWasSuccessful) {
+void UNetworkGameInstance::OnStartOnlineGameComplete(FName SessionName, bool bWasSuccessful)
+{
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OnStartSessionComplete %s, %d"), *SessionName.ToString(), bWasSuccessful));
 
 	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
@@ -157,7 +163,8 @@ void UNetworkGameInstance::OnStartOnlineGameComplete(FName SessionName, bool bWa
 	}
 }
 
-void UNetworkGameInstance::FindSessions(TSharedPtr<const FUniqueNetId> UserId, bool bIsLAN, bool bIsPresence) {
+void UNetworkGameInstance::FindSessions(TSharedPtr<const FUniqueNetId> UserId, bool bIsLAN, bool bIsPresence)
+{
 	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
 	if (OnlineSub)
 	{
@@ -187,7 +194,8 @@ void UNetworkGameInstance::FindSessions(TSharedPtr<const FUniqueNetId> UserId, b
 	}
 }
 
-void UNetworkGameInstance::OnFindSessionsComplete(bool bWasSuccessful) {
+void UNetworkGameInstance::OnFindSessionsComplete(bool bWasSuccessful)
+{
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OFindSessionsComplete bSuccess: %d"), bWasSuccessful));
 
 	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
@@ -231,7 +239,8 @@ void UNetworkGameInstance::OnFindSessionsComplete(bool bWasSuccessful) {
 	}
 }
 
-bool UNetworkGameInstance::JoinSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult) {
+bool UNetworkGameInstance::JoinSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult)
+{
 	bool bSuccessful = false;
 	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
 	if (OnlineSub)
@@ -248,7 +257,8 @@ bool UNetworkGameInstance::JoinSession(TSharedPtr<const FUniqueNetId> UserId, FN
 	return bSuccessful;
 }
 
-void UNetworkGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result) {
+void UNetworkGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
+{
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OnJoinSessionComplete %s, %d"), *SessionName.ToString(), static_cast<int32>(Result)));
 
 	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
@@ -315,14 +325,16 @@ void UNetworkGameInstance::OnDestroySessionComplete(FName SessionName, bool bWas
 // *************************************************** TESTS ************************************************
 
 
-void UNetworkGameInstance::SessionCreationTests() {
+void UNetworkGameInstance::SessionCreationTests()
+{
 #if TEST
 	bTestCreateActivated = true;
 	StartOnlineGame();
 #endif
 }
 
-void UNetworkGameInstance::SessionJoinTests() {
+void UNetworkGameInstance::SessionJoinTests()
+{
 #if TEST
 	bTestJoinActivated = true;
 	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Blue, FString::Printf(TEXT("TEST 1/5 : Trying to Find the opened session")));

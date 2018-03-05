@@ -22,7 +22,7 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 	UNetworkGameInstance* Gi = Cast<UNetworkGameInstance>(GetWorld()->GetGameInstance());
 	if(Gi)
 	{
-		if(!Gi->bMultiPlayerGame || GetNumPlayers() > 1)
+		if(!Gi->bMultiPlayerGame || GetNumPlayers() == Gi->MaxNumPlayers)
 		{
 			if(GetWorld()->GetMapName().Mid(GetWorld()->StreamingLevelsPrefix.Len()) == "Arena_V1")
 			{
