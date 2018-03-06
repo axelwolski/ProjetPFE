@@ -39,12 +39,21 @@ void AAIControllerBoss2::Tick(float DeltaTime)
 
 void AAIControllerBoss2::MoveToCharacter() 
 {
-	float DistMin = FVector::Distance(TabCharacter[0]->GetActorLocation(), BossPos);
 	int Index = 0;
-	for (int i = 1; i < TabCharacter.Max(); ++i)
+	for (int i = 0; i < TabCharacter.Num(); i++)
 	{
+		if (TabCharacter[i]->Health > 0)
+		{
+			Index = i;
+			break;
+		}
+	}
+	float DistMin = FVector::Distance(TabCharacter[Index]->GetActorLocation(), BossPos);
+	for (int i = 1; i < TabCharacter.Num(); i++)
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(TabCharacter.Num()));
 		float TmpDist = FVector::Distance(TabCharacter[i]->GetActorLocation(), BossPos);
-		if (DistMin > TmpDist)
+		if (DistMin > TmpDist && TabCharacter[i]->Health > 0)
 		{
 			DistMin = TmpDist;
 			Index = i;
