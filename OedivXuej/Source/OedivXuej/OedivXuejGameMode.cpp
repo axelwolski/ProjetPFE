@@ -1,6 +1,7 @@
 // Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 
 #include "OedivXuejGameMode.h"
+#include "ErrorLog.h"
 #include "OedivXuejCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
@@ -18,6 +19,8 @@ AOedivXuejGameMode::AOedivXuejGameMode()
 void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
+
+	// destroy the arena blocking door when playing solo or all players are in the level
 	TArray<AActor*> ActorList = GetWorld()->GetCurrentLevel()->Actors;
 	UNetworkGameInstance* Gi = Cast<UNetworkGameInstance>(GetWorld()->GetGameInstance());
 	if(Gi)
@@ -34,9 +37,17 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 						{
 							ActorList.RemoveAt(i);
 						}
+						else
+						{
+							UErrorLog::WriteError("PostLogin", "Can't destroy actor");
+						}
 					}
 				}
 			}
 		}
+	}
+	else
+	{
+		UErrorLog::WriteError("PostLogin", "Can't find game instance");
 	}
 }
