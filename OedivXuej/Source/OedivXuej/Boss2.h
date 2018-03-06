@@ -4,9 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Runtime/AIModule/Classes/AIController.h"
 #include "Runtime/Core/Public/Math/Vector.h"
-#include "AIControllerBoss2.h"
 #include "Boss2.generated.h"
 
 UCLASS()

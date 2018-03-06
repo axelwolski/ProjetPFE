@@ -8,7 +8,6 @@
 #include "Runtime/AIModule/Classes/BehaviorTree/BlackboardComponent.h"
 #include "Runtime/AIModule/Classes/BehaviorTree/BehaviorTreeComponent.h"
 #include "Runtime/Core/Public/Containers/Array.h"
-#include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "OedivXuejCharacter.h"
 #include "AIControllerBoss2.generated.h"
 
@@ -47,8 +46,32 @@ public:
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 			FVector BossPos;
 
-		UFUNCTION(BlueprintCallable, Category = Behavior)
-			void MoveToCharacter();
+		int MoveToCharacter();
+		void Attack(int finishMove);
+
+		bool FinishAttack = false;
+
+		UAnimInstance* AnimInstance;
+
+		UFUNCTION(NetMulticast, Unreliable)
+			void MultiCastAttack();
+		void MultiCastAttack_Implementation();
+
+		UFUNCTION(Server, Reliable, WithValidation)
+			void ServerAttack();
+		void ServerAttack_Implementation();
+		bool ServerAttack_Validate();
+
+		void OnAttack();
+		void SetAttack();
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
+			class UAnimMontage* AttackAnimation;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
+			class USkeletalMeshComponent* MeshBoss;
+
+		void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
 
 protected:
 	uint8 EnemyKeyID;
