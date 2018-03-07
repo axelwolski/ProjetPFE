@@ -33,42 +33,38 @@ void AAIControllerBoss2::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (!RecupActor) 
 	{
-		int finishMove = MoveToCharacter();
-		Attack(finishMove);
+		//int finishMove = MoveToCharacter();
+		//Attack(finishMove);
 	}
 }
 
 int AAIControllerBoss2::MoveToCharacter() 
 {
-	if (!BeginAttack)
+	int Index = 0;
+	for (int i = 0; i < TabCharacter.Num(); i++)
 	{
-		int Index = 0;
-		for (int i = 0; i < TabCharacter.Num(); i++)
+		if (TabCharacter[i]->Health > 0)
 		{
-			if (TabCharacter[i]->Health > 0)
-			{
-				Index = i;
-				break;
-			}
+			Index = i;
+			break;
 		}
-		float DistMin = FVector::Distance(TabCharacter[Index]->GetActorLocation(), BossPos);
-		for (int i = 1; i < TabCharacter.Num(); i++)
-		{
-			float TmpDist = FVector::Distance(TabCharacter[i]->GetActorLocation(), BossPos);
-			if (DistMin > TmpDist && TabCharacter[i]->Health > 0)
-			{
-				DistMin = TmpDist;
-				Index = i;
-			}
-		}
-		return MoveToLocation(TabCharacter[Index]->GetActorLocation(), 500.f);
 	}
-	return -1;
+	float DistMin = FVector::Distance(TabCharacter[Index]->GetActorLocation(), BossPos);
+	for (int i = 1; i < TabCharacter.Num(); i++)
+	{
+		float TmpDist = FVector::Distance(TabCharacter[i]->GetActorLocation(), BossPos);
+		if (DistMin > TmpDist && TabCharacter[i]->Health > 0)
+		{
+			DistMin = TmpDist;
+			Index = i;
+		}
+	}
+	return MoveToLocation(TabCharacter[Index]->GetActorLocation(), 500.f);
 }
 
 void AAIControllerBoss2::Attack(int FinishMove) 
 {
-	if (FinishMove == 1) 
+	/*if (FinishMove == 1) 
 	{
 		//BeginAttack = true;
 		IsAttacking = true;
@@ -76,7 +72,7 @@ void AAIControllerBoss2::Attack(int FinishMove)
 	else if (IsAttacking)
 	{
 		IsAttacking = false;
-	}
+	}*/
 }
 
 void AAIControllerBoss2::SearchForEnemy()

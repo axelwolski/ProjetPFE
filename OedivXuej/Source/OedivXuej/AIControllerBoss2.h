@@ -49,7 +49,8 @@ public:
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 			bool IsAttacking;
 
-		int MoveToCharacter();
+		UFUNCTION(BlueprintCallable, Category = Behavior)
+			int MoveToCharacter();
 		void Attack(int finishMove);
 
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)

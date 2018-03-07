@@ -23,15 +23,17 @@ void ABoss2::BeginPlay()
 void ABoss2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
 	if (IsAttacking)
 	{
+		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
 		OnAttack();
 	}
 	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(AttackAnimation))
 	{
 		BeginAnimationAttack = false;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(BeginAnimationAttack));
+	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(BeginAnimationAttack));
 }
 
 // Called to bind functionality to input
@@ -79,6 +81,7 @@ void ABoss2::SetAttack()
 		{
 			AnimInstance->Montage_Play(AttackAnimation, 1.f);
 			BeginAnimationAttack = true;
+			IsAttacking = false;
 		}
 	}
 }
