@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Runtime/Core/Public/Math/Vector.h"
+#include "Runtime/Engine/Classes/Animation/AnimInstance.h"
+#include "Runtime/Engine/Classes/Animation/AnimMontage.h"
 #include "Boss2.generated.h"
 
 UCLASS()
@@ -30,6 +32,31 @@ public:
 		bool StartFight;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString Name;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		bool IsAttacking = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		bool BeginAnimationAttack = false;
+
+	UAnimInstance* AnimInstance;
+
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastAttack();
+	void MultiCastAttack_Implementation();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerAttack();
+	void ServerAttack_Implementation();
+	bool ServerAttack_Validate();
+
+	void OnAttack();
+	void SetAttack();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
+		class UAnimMontage* AttackAnimation;
+
+	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

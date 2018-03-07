@@ -36,14 +36,11 @@ void AAIControllerBoss2::Tick(float DeltaTime)
 		int finishMove = MoveToCharacter();
 		Attack(finishMove);
 	}
-	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(AttackAnimation)) {
-		FinishAttack = false;
-	}
 }
 
 int AAIControllerBoss2::MoveToCharacter() 
 {
-	if (!FinishAttack)
+	if (!BeginAttack)
 	{
 		int Index = 0;
 		for (int i = 0; i < TabCharacter.Num(); i++)
@@ -73,56 +70,13 @@ void AAIControllerBoss2::Attack(int FinishMove)
 {
 	if (FinishMove == 1) 
 	{
-		FinishAttack = true;
-		OnAttack();
+		//BeginAttack = true;
+		IsAttacking = true;
 	}
-}
-
-void AAIControllerBoss2::MultiCastAttack_Implementation()
-{
-	SetAttack();
-}
-
-void AAIControllerBoss2::ServerAttack_Implementation()
-{
-	MultiCastAttack();
-}
-
-bool AAIControllerBoss2::ServerAttack_Validate()
-{
-	return true;
-}
-
-void AAIControllerBoss2::OnAttack()
-{
-	
-	if (HasAuthority())
+	else if (IsAttacking)
 	{
-		MultiCastAttack();
+		IsAttacking = false;
 	}
-	else
-	{
-		ServerAttack();
-	}
-}
-
-void AAIControllerBoss2::SetAttack()
-{
-	// try and play a firing animation if specified
-	if (AttackAnimation != NULL)
-	{
-		AnimInstance = MeshBoss->GetAnimInstance();
-		// Get the animation object for the arms mesh
-		if (AnimInstance != NULL)
-		{
-			AnimInstance->Montage_Play(AttackAnimation, 1.f);
-		}
-	}
-}
-
-void AAIControllerBoss2::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
 
 void AAIControllerBoss2::SearchForEnemy()

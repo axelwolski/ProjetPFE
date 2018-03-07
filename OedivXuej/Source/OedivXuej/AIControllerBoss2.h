@@ -46,32 +46,14 @@ public:
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 			FVector BossPos;
 
+		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+			bool IsAttacking;
+
 		int MoveToCharacter();
 		void Attack(int finishMove);
 
-		bool FinishAttack = false;
-
-		UAnimInstance* AnimInstance;
-
-		UFUNCTION(NetMulticast, Unreliable)
-			void MultiCastAttack();
-		void MultiCastAttack_Implementation();
-
-		UFUNCTION(Server, Reliable, WithValidation)
-			void ServerAttack();
-		void ServerAttack_Implementation();
-		bool ServerAttack_Validate();
-
-		void OnAttack();
-		void SetAttack();
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
-			class UAnimMontage* AttackAnimation;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
-			class USkeletalMeshComponent* MeshBoss;
-
-		void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
+		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+			bool BeginAttack = false;
 
 protected:
 	uint8 EnemyKeyID;
