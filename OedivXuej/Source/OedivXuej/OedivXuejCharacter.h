@@ -40,6 +40,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString Info;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		float LastEnergy;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString HealthPercent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString EnergyPercent;

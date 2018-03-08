@@ -31,6 +31,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		bool StartFight;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		bool HasHit;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString Name;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)

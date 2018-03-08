@@ -10,6 +10,7 @@ ABoss2::ABoss2()
 	PrimaryActorTick.bCanEverTick = true;
 	Health = 1.0f;
 	Name = "Forge Master";
+	HasHit = false;
 }
 
 // Called when the game starts or when spawned

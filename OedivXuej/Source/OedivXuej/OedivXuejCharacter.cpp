@@ -29,6 +29,7 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	Energy = 1.0f;
 	HealthPercent = FString::FromInt(Health * 100);
 	EnergyPercent = FString::FromInt(Energy * 100);
+	LastEnergy = 1.0f;
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -111,13 +112,17 @@ void AOedivXuejCharacter::JumpRoll()
 {
 	if (this->GetCharacterMovement()->Velocity.Z == 0 && canMove())
 	{
-		if (Energy >= 0.20) {
+		if (Energy >= 0.20)
+		{
 			Info = "";
 			Jump();
 			SetEnergy(-0.20);
 		}
 		else
+		{
 			Info = "Not Enought Energy !";
+			LastEnergy = 0.20f;
+		}
 	}
 }
 
@@ -125,6 +130,8 @@ void AOedivXuejCharacter::RefillEnergy()
 {
 	if (Energy < 1.0)
 		SetEnergy(0.005);
+	if (Energy > LastEnergy)
+		Info = "";
 }
 
 void AOedivXuejCharacter::UpdateEnergyPercent()
@@ -346,7 +353,10 @@ void AOedivXuejCharacter::OnRoll()
 		}
 	}
 	else
+	{
 		Info = "Not Enought Energy !";
+		LastEnergy = 0.25;
+	}
 }
 
 void AOedivXuejCharacter::SetRolling()
@@ -402,7 +412,10 @@ void AOedivXuejCharacter::OnStab()
 		}*/
 	}
 	else
+	{
 		Info = "Not Enought Energy !";
+		LastEnergy = 0.05;
+	}
 }
 
 /*
@@ -477,7 +490,10 @@ void AOedivXuejCharacter::OnStabHigh()
 		}
 	}
 	else
+	{
 		Info = "Not Enought Energy !";
+		LastEnergy = 0.10;
+	}
 }
 
 void AOedivXuejCharacter::SetStabHigh()
@@ -530,7 +546,10 @@ void AOedivXuejCharacter::OnStabJump()
 		}
 	}
 	else
+	{
 		Info = "Not Enought Energy !";
+		LastEnergy = 0.10;
+	}
 }
 
 void AOedivXuejCharacter::SetStabJump()
