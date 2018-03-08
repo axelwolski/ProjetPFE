@@ -12,33 +12,24 @@ AAIControllerBoss2::AAIControllerBoss2(const FObjectInitializer& ObjectInitializ
 	BlackboardComp = ObjectInitializer.CreateDefaultSubobject<UBlackboardComponent>(this, TEXT("BlackBoardComp"));
 
 	BehaviorComp = ObjectInitializer.CreateDefaultSubobject<UBehaviorTreeComponent>(this, TEXT("BehaviorComp"));
-	
-	/*int sizeActors = 0;
-	for (TActorIterator<AOedivXuejCharacter> It(GetWorld()); It; ++It)
-	{
-		sizeActors++;
-		tabCharacter.Add(*It);
-	}
-	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(tabCharacter.Max()));*/
 }
 
 void AAIControllerBoss2::Possess(class APawn* InPawn)
 {
 	Super::Possess(InPawn);
-	//MoveToLocation(tabCharacter[0]->GetActorLocation(), 100.f);
 }
 
 void AAIControllerBoss2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (!RecupActor) 
-	{
-		//int finishMove = MoveToCharacter();
-		//Attack(finishMove);
-	}
 }
 
-int AAIControllerBoss2::MoveToCharacter() 
+int AAIControllerBoss2::MoveToCharacter(AOedivXuejCharacter* AgroCheck)
+{
+	return MoveToLocation(AgroCheck->GetActorLocation(), 500.f);
+}
+
+AOedivXuejCharacter* AAIControllerBoss2::AgroCheck()
 {
 	int Index = 0;
 	for (int i = 0; i < TabCharacter.Num(); i++)
@@ -50,6 +41,7 @@ int AAIControllerBoss2::MoveToCharacter()
 		}
 	}
 	float DistMin = FVector::Distance(TabCharacter[Index]->GetActorLocation(), BossPos);
+	AOedivXuejCharacter* AgroCheck = TabCharacter[Index];
 	for (int i = 1; i < TabCharacter.Num(); i++)
 	{
 		float TmpDist = FVector::Distance(TabCharacter[i]->GetActorLocation(), BossPos);
@@ -57,69 +49,8 @@ int AAIControllerBoss2::MoveToCharacter()
 		{
 			DistMin = TmpDist;
 			Index = i;
+			AgroCheck = TabCharacter[i];
 		}
 	}
-	return MoveToLocation(TabCharacter[Index]->GetActorLocation(), 500.f);
+	return AgroCheck;
 }
-
-void AAIControllerBoss2::Attack(int FinishMove) 
-{
-	/*if (FinishMove == 1) 
-	{
-		//BeginAttack = true;
-		IsAttacking = true;
-	}
-	else if (IsAttacking)
-	{
-		IsAttacking = false;
-	}*/
-}
-
-void AAIControllerBoss2::SearchForEnemy()
-{
-	/*APawn* MyBot = GetPawn();
-	if (MyBot == NULL)
-	{
-		return;
-	}
-
-	const FVector MyLoc = MyBot->GetActorLocation();
-	float BestDistSq = MAX_FLT;
-	ASideScrollerConceptCharacter* BestPawn = NULL;
-
-	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
-	{
-		ASideScrollerConceptCharacter* TestPawn = Cast<ASideScrollerConceptCharacter>(*It);
-		if (TestPawn)
-		{
-			const float DistSq = (TestPawn->GetActorLocation() - MyLoc).SizeSquared();
-			if (DistSq < BestDistSq)
-			{
-				BestDistSq = DistSq;
-				BestPawn = TestPawn;
-			}
-		}
-	}
-	if (BestPawn)
-	{
-		SetEnemy(BestPawn);
-	}*/
-}
-
-void AAIControllerBoss2::SetEnemy(class APawn* InPawn)
-{
-	/*BlackboardComp->SetValueAsObject(EnemyKeyID, InPawn);
-	BlackboardComp->SetValueAsVector(EnemyLocationID, InPawn->GetActorLocation());
-	SetFocus(InPawn);*/
-}
-/*
-class ASideScrollerConceptCharacter* AAIControllerBoss2::GetEnemy() const
-{
-	if (BlackboardComp)
-	{
-		return Cast<ASideScrollerConceptCharacter>(BlackboardComp->GetValueAsObject(EnemyKeyID));
-	}
-	
-	return NULL;
-}*/
-

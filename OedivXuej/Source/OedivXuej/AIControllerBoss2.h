@@ -33,15 +33,13 @@ public:
 
 		virtual void Possess(APawn *InPawn);
 
-		void SetEnemy(APawn* InPawn);
-
-		UFUNCTION(BlueprintCallable, Category = Behavior)
-			void SearchForEnemy();
-
 		virtual void Tick(float DeltaSeconds) override;
 
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 			bool RecupActor = true;
+
+		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+			AOedivXuejCharacter* TargetToFollow;
 
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 			FVector BossPos;
@@ -50,13 +48,12 @@ public:
 			bool IsAttacking;
 
 		UFUNCTION(BlueprintCallable, Category = Behavior)
-			int MoveToCharacter();
-		void Attack(int finishMove);
+			int MoveToCharacter(AOedivXuejCharacter* AgroCheck);
+
+
+		UFUNCTION(BlueprintCallable, Category = Behavior)
+			AOedivXuejCharacter* AgroCheck();
 
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 			bool BeginAttack = false;
-
-protected:
-	uint8 EnemyKeyID;
-	uint8 EnemyLocationID;
 };
