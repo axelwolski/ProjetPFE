@@ -43,20 +43,53 @@ public:
 
 	UAnimInstance* AnimInstance;
 
+	//Animation Attack Basic 
 	UFUNCTION(NetMulticast, Unreliable)
-		void MultiCastAttack();
-	void MultiCastAttack_Implementation();
+		void MultiCastAttackBasic();
+	void MultiCastAttackBasic_Implementation();
 
 	UFUNCTION(Server, Reliable, WithValidation)
-		void ServerAttack();
-	void ServerAttack_Implementation();
-	bool ServerAttack_Validate();
+		void ServerAttackBasic();
+	void ServerAttackBasic_Implementation();
+	bool ServerAttackBasic_Validate();
 
-	void OnAttack();
-	void SetAttack();
+	void OnAttackBasic();
+	void SetAttackBasic();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
-		class UAnimMontage* AttackAnimation;
+		class UAnimMontage* AttackAnimationBasic;
+
+	//Animation Attack Slash Right
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastAttackSlashRight();
+	void MultiCastAttackSlashRight_Implementation();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerAttackSlashRight();
+	void ServerAttackSlashRight_Implementation();
+	bool ServerAttackSlashRight_Validate();
+
+	void OnAttackSlashRight();
+	void SetAttackSlashRight();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
+		class UAnimMontage* AttackAnimationSlashRight;
+
+	//Animation Attack Slash Left
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastAttackSlashLeft();
+	void MultiCastAttackSlashLeft_Implementation();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerAttackSlashLeft();
+	void ServerAttackSlashLeft_Implementation();
+	bool ServerAttackSlashLeft_Validate();
+
+	void OnAttackSlashLeft();
+	void SetAttackSlashLeft();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
+		class UAnimMontage* AttackAnimationSlashLeft;
 
 	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
 

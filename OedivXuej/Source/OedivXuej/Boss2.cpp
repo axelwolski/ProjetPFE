@@ -28,12 +28,12 @@ void ABoss2::Tick(float DeltaTime)
 	if (IsAttacking)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
-		OnAttack();
+		OnAttackBasic();
 	}
-	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(AttackAnimation))
+	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(AttackAnimationBasic) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashRight) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashLeft))
 	{
 		BeginAnimationAttack = false;
-	}
+	} 
 	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(BeginAnimationAttack));
 }
 
@@ -43,44 +43,135 @@ void ABoss2::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void ABoss2::MultiCastAttack_Implementation()
+// Attack Basic
+void ABoss2::MultiCastAttackBasic_Implementation()
 {
-	SetAttack();
+	SetAttackBasic();
 }
 
-void ABoss2::ServerAttack_Implementation()
+void ABoss2::ServerAttackBasic_Implementation()
 {
-	MultiCastAttack();
+	MultiCastAttackBasic();
 }
 
-bool ABoss2::ServerAttack_Validate()
+bool ABoss2::ServerAttackBasic_Validate()
 {
 	return true;
 }
 
-void ABoss2::OnAttack()
+void ABoss2::OnAttackBasic()
 {
 
 	if (HasAuthority())
 	{
-		MultiCastAttack();
+		MultiCastAttackBasic();
 	}
 	else
 	{
-		ServerAttack();
+		ServerAttackBasic();
 	}
 }
 
-void ABoss2::SetAttack()
+void ABoss2::SetAttackBasic()
 {
 	// try and play a firing animation if specified
-	if (AttackAnimation != NULL)
+	if (AttackAnimationBasic != NULL)
 	{
 		AnimInstance = GetMesh()->GetAnimInstance();
 		// Get the animation object for the arms mesh
 		if (AnimInstance != NULL)
 		{
-			AnimInstance->Montage_Play(AttackAnimation, 1.f);
+			AnimInstance->Montage_Play(AttackAnimationBasic, 1.f);
+			BeginAnimationAttack = true;
+			IsAttacking = false;
+		}
+	}
+}
+
+// Slahs Right
+void ABoss2::MultiCastAttackSlashRight_Implementation()
+{
+	SetAttackSlashRight();
+}
+
+void ABoss2::ServerAttackSlashRight_Implementation()
+{
+	MultiCastAttackSlashRight();
+}
+
+bool ABoss2::ServerAttackSlashRight_Validate()
+{
+	return true;
+}
+
+void ABoss2::OnAttackSlashRight()
+{
+
+	if (HasAuthority())
+	{
+		MultiCastAttackSlashRight();
+	}
+	else
+	{
+		ServerAttackSlashRight();
+	}
+}
+
+void ABoss2::SetAttackSlashRight()
+{
+	// try and play a firing animation if specified
+	if (AttackAnimationSlashRight != NULL)
+	{
+		AnimInstance = GetMesh()->GetAnimInstance();
+		// Get the animation object for the arms mesh
+		if (AnimInstance != NULL)
+		{
+			AnimInstance->Montage_Play(AttackAnimationSlashRight, 1.f);
+			BeginAnimationAttack = true;
+			IsAttacking = false;
+		}
+	}
+}
+
+// Attack Basic
+void ABoss2::MultiCastAttackSlashLeft_Implementation()
+{
+	SetAttackSlashLeft();
+}
+
+void ABoss2::ServerAttackSlashLeft_Implementation()
+{
+	MultiCastAttackSlashLeft();
+}
+
+bool ABoss2::ServerAttackSlashLeft_Validate()
+{
+	return true;
+}
+
+void ABoss2::OnAttackSlashLeft()
+{
+
+	if (HasAuthority())
+	{
+		MultiCastAttackSlashLeft();
+	}
+	else
+	{
+		ServerAttackSlashLeft();
+	}
+}
+
+void ABoss2::SetAttackSlashLeft()
+{
+	// try and play a firing animation if specified
+	if (AttackAnimationSlashLeft != NULL)
+	{
+		AnimInstance = GetMesh()->GetAnimInstance();
+		// Get the animation object for the arms mesh
+		if (AnimInstance != NULL)
+		{
+			AnimInstance->Montage_Play(AttackAnimationSlashLeft, 1.f);
 			BeginAnimationAttack = true;
 			IsAttacking = false;
 		}
