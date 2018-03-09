@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Boss2.h"
+#include <stdlib.h>
+#include <time.h>   
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 
 // Sets default values
@@ -24,11 +26,24 @@ void ABoss2::BeginPlay()
 void ABoss2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	srand(time(NULL));
 	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
 	if (IsAttacking)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
-		OnAttackBasic();
+		int r = rand() % 3;
+		if (r == 0)
+		{
+			OnAttackBasic();
+		} 
+		else if (r == 1)
+		{
+			OnAttackSlashLeft();
+		}
+		else if (r == 2)
+		{
+			OnAttackSlashRight();
+		}
 	}
 	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(AttackAnimationBasic) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashRight) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashLeft))
 	{
