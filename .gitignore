@@ -17,7 +17,9 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
+*/Binaries/Win64/*.target
+*/Binaries/Win64/*.modules
+*/Binaries/Win64/*.pdb
 
 # Fortran module files
 *.mod
@@ -25,8 +27,6 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
-*.lib
 
 # Executables
 *.exe
@@ -49,7 +49,6 @@ SourceArt/**/*.png
 SourceArt/**/*.tga
 
 # Binary Files
-*/Binaries/*
 */Plugins/*/Binaries/*
 
 # Builds
