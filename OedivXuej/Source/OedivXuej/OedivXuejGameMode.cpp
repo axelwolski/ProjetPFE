@@ -15,13 +15,12 @@ AOedivXuejGameMode::AOedivXuejGameMode()
 	}
 }
 
-
 void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
 	// destroy the arena blocking door when playing solo or all players are in the level
-	TArray<AActor*> ActorList = GetWorld()->GetCurrentLevel()->Actors;
+	ActorList = GetWorld()->GetCurrentLevel()->Actors;
 	UNetworkGameInstance* Gi = Cast<UNetworkGameInstance>(GetWorld()->GetGameInstance());
 	if(Gi)
 	{
@@ -33,14 +32,19 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 				{
 					if(ActorList[i]->GetName() == "ArenaV1_Lobby_Door_BP_180")
 					{
-						if(ActorList[i]->Destroy())
+						ClosingDoor = ActorList[i];
+						ClosingDoor->SetActorHiddenInGame(true);
+						ClosingDoor->SetActorEnableCollision(false);
+						ActorList[i]->SetActorHiddenInGame(true);
+						ActorList[i]->SetActorEnableCollision(false);
+						/*if(ActorList[i]->Destroy())
 						{
 							ActorList.RemoveAt(i);
 						}
 						else
 						{
 							UErrorLog::WriteError("PostLogin", "Can't destroy actor");
-						}
+						}*/
 					}
 				}
 			}

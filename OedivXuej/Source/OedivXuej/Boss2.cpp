@@ -2,7 +2,7 @@
 
 #include "Boss2.h"
 #include <stdlib.h>
-#include <time.h>   
+#include <time.h>
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 
 // Sets default values
@@ -35,7 +35,7 @@ void ABoss2::Tick(float DeltaTime)
 		if (r == 0)
 		{
 			OnAttackBasic();
-		} 
+		}
 		else if (r == 1)
 		{
 			OnAttackSlashLeft();
@@ -48,7 +48,7 @@ void ABoss2::Tick(float DeltaTime)
 	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(AttackAnimationBasic) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashRight) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashLeft))
 	{
 		BeginAnimationAttack = false;
-	} 
+	}
 	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(BeginAnimationAttack));
 }
 
