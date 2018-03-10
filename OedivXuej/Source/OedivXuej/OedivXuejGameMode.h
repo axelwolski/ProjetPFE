@@ -15,7 +15,10 @@ class AOedivXuejGameMode : public AGameModeBase
 public:
 	AOedivXuejGameMode();
 	void PostLogin(APlayerController * NewPlayer);
+	void HideDoor();
 
 	AActor* ClosingDoor;
 	TArray<AActor*> ActorList;
+
+	FTimerHandle DoorDelayTimerHandle;
 };

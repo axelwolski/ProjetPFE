@@ -605,21 +605,21 @@ void AOedivXuejCharacter::SetStabJump()
 	void AOedivXuejCharacter::TestHealth()
 	{
 		if (Health != 1.0)
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Health start value : FAIL")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Health start value : FAIL")));
 		else
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Health start value : 1.0 OK")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Health start value : 1.0 OK")));
 
 		SetHealth(2.0);
 		if (Health != 1.0)
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Health max value : FAIL")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Health max value : FAIL")));
 		else
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Health max value : 1.0 OK")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Health max value : 1.0 OK")));
 
 		SetHealth(-2.0);
 		if (Health != 0.0)
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Health min value : FAIL")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Health min value : FAIL")));
 		else
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Health min value : 0.0 OK")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Health min value : 0.0 OK")));
 
 		SetHealth(1.0);
 	}
@@ -627,35 +627,35 @@ void AOedivXuejCharacter::SetStabJump()
 	void AOedivXuejCharacter::TestEnergy()
 	{
 		if (Energy != 1.0)
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy start value : FAIL")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy start value : FAIL")));
 		else
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy start value : 1.0 OK")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy start value : 1.0 OK")));
 
 		SetEnergy(2.0);
 		if (Energy != 1.0)
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy max value : FAIL")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy max value : FAIL")));
 		else
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy max value : 1.0 OK")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy max value : 1.0 OK")));
 
 		SetEnergy(-2.0);
 		if (Energy != 0.0)
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy min value : FAIL")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy min value : FAIL")));
 		else
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy min value : 0.0 OK")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy min value : 0.0 OK")));
 
 		SetEnergy(1.0);
 		JumpRoll();
 		if (Energy < 0.8 || Energy > 0.85)
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy after jump : FAIL")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Energy after jump : FAIL")));
 		else
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy after jump : 0.8 OK")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Energy after jump : 0.8 OK")));
 
 		SetEnergy(-1.0);
 		JumpRoll();
 		if (GetCharacterMovement()->Velocity.Z != 0 || Energy < 0.0)
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, FString::Printf(TEXT("TEST : Jump when no energy : FAIL")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Jump when no energy : FAIL")));
 		else
-			GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Green, FString::Printf(TEXT("TEST : Jump when no energy : OK")));
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Jump when no energy : OK")));
 
 		SetEnergy(1.0);
 	}

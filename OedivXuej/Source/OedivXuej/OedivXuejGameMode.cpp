@@ -33,10 +33,7 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 					if(ActorList[i]->GetName() == "ArenaV1_Lobby_Door_BP_180")
 					{
 						ClosingDoor = ActorList[i];
-						ClosingDoor->SetActorHiddenInGame(true);
-						ClosingDoor->SetActorEnableCollision(false);
-						ActorList[i]->SetActorHiddenInGame(true);
-						ActorList[i]->SetActorEnableCollision(false);
+						GetWorld()->GetTimerManager().SetTimer(DoorDelayTimerHandle, this, &AOedivXuejGameMode::HideDoor, 3.0f, false);
 						/*if(ActorList[i]->Destroy())
 						{
 							ActorList.RemoveAt(i);
@@ -54,4 +51,11 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 	{
 		UErrorLog::WriteError("PostLogin", "Can't find game instance");
 	}
+}
+
+void AOedivXuejGameMode::HideDoor()
+{
+	ClosingDoor->SetActorHiddenInGame(true);
+	ClosingDoor->SetActorEnableCollision(false);
+	GetWorldTimerManager().ClearTimer(DoorDelayTimerHandle);
 }
