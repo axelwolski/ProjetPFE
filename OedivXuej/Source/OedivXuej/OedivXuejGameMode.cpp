@@ -30,6 +30,12 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 			{
 				for (int32 i = 0; i != ActorList.Num(); i++)
 				{
+					if(ActorList[i]->GetName() == "SM_Plains_CastleArch_Iron_Gate_4_BP")
+					{
+						DownDoor = ActorList[i];
+						DownDoor->SetActorHiddenInGame(true);
+						DownDoor->SetActorEnableCollision(false);
+					}
 					if(ActorList[i]->GetName() == "ArenaV1_Lobby_Door_BP_180")
 					{
 						ClosingDoor = ActorList[i];
@@ -57,5 +63,7 @@ void AOedivXuejGameMode::HideDoor()
 {
 	ClosingDoor->SetActorHiddenInGame(true);
 	ClosingDoor->SetActorEnableCollision(false);
+	DownDoor->SetActorHiddenInGame(false);
+	DownDoor->SetActorEnableCollision(true);
 	GetWorldTimerManager().ClearTimer(DoorDelayTimerHandle);
 }

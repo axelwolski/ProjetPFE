@@ -46,7 +46,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString EnergyPercent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, category = Info)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Info)
 		bool IsAttacking;
 
 	UFUNCTION(BlueprintCallable, Category = Stats)

@@ -18,6 +18,7 @@ public:
 	void HideDoor();
 
 	AActor* ClosingDoor;
+	AActor* DownDoor;
 	TArray<AActor*> ActorList;
 
 	FTimerHandle DoorDelayTimerHandle;
