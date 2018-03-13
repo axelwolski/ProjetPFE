@@ -31,7 +31,7 @@ void ABoss2::Tick(float DeltaTime)
 	if (IsAttacking)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
-		int r = rand() % 3;
+		int r = 0; //rand() % 3;
 		if (r == 0)
 		{
 			OnAttackBasic();

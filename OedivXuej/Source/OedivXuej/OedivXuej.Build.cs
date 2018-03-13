@@ -10,6 +10,6 @@ public class OedivXuej : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "OnlineSubsystem", "OnlineSubsystemUtils" });
 		DynamicallyLoadedModuleNames.Add("OnlineSubsystemSteam");
-		PublicAdditionalLibraries.Add("/Binaries/Win64/libaubio.a");
+		PublicAdditionalLibraries.Add("D:/ProjetPFE/OedivXuej/Binaries/Win64/aubio.dll.a");
 	}
 }

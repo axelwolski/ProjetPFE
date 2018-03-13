@@ -26,7 +26,7 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 	{
 		if(!Gi->bMultiPlayerGame || GetNumPlayers() == Gi->MaxNumPlayers)
 		{
-			if(GetWorld()->GetMapName().Mid(GetWorld()->StreamingLevelsPrefix.Len()) == "Arena_V1")
+			if(GetWorld()->GetMapName().Mid(GetWorld()->StreamingLevelsPrefix.Len()) != "MainMenu")
 			{
 				for (int32 i = 0; i != ActorList.Num(); i++)
 				{
