@@ -58,6 +58,6 @@ AOedivXuejCharacter* AAIControllerBoss2::AgroCheck()
 void AAIControllerBoss2::SaveProba() 
 {
 	FVector tmp = FVector(Boss2->GetActorForwardVector().X - Boss2->GetActorLocation().X, Boss2->GetActorForwardVector().Y - Boss2->GetActorLocation().Y, Boss2->GetActorForwardVector().Z - Boss2->GetActorLocation().Z);
-	float angle = acos(Boss2->GetActorForwardVector().DotProduct(Boss2->GetActorForwardVector(), tmp));
-	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(angle));
+	angle = acos(Boss2->GetActorForwardVector().DotProduct(Boss2->GetActorForwardVector(), tmp));
+	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::(angle));
 }

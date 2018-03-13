@@ -53,6 +53,9 @@ public:
 		UFUNCTION(BlueprintCallable, Category = Behavior)
 			void SaveProba();
 
+		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+			float angle;
+
 		UFUNCTION(BlueprintCallable, Category = Behavior)
 			AOedivXuejCharacter* AgroCheck();
 
