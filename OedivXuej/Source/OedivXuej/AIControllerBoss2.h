@@ -42,7 +42,7 @@ public:
 			AOedivXuejCharacter* TargetToFollow;
 
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
-			FVector BossPos;
+			ABoss2* Boss2;
 
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 			bool IsAttacking;
@@ -50,6 +50,8 @@ public:
 		UFUNCTION(BlueprintCallable, Category = Behavior)
 			int MoveToCharacter(AOedivXuejCharacter* AgroCheck);
 
+		UFUNCTION(BlueprintCallable, Category = Behavior)
+			void SaveProba();
 
 		UFUNCTION(BlueprintCallable, Category = Behavior)
 			AOedivXuejCharacter* AgroCheck();

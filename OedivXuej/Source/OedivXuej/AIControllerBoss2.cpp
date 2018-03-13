@@ -40,17 +40,24 @@ AOedivXuejCharacter* AAIControllerBoss2::AgroCheck()
 			break;
 		}
 	}
-	float DistMin = FVector::Distance(TabCharacter[Index]->GetActorLocation(), BossPos);
-	AOedivXuejCharacter* AgroCheck = TabCharacter[Index];
+	float DistMin = FVector::Distance(TabCharacter[Index]->GetActorLocation(), Boss2->GetActorLocation());
+	TargetToFollow = TabCharacter[Index];
 	for (int i = 1; i < TabCharacter.Num(); i++)
 	{
-		float TmpDist = FVector::Distance(TabCharacter[i]->GetActorLocation(), BossPos);
+		float TmpDist = FVector::Distance(TabCharacter[i]->GetActorLocation(), Boss2->GetActorLocation());
 		if (DistMin > TmpDist && TabCharacter[i]->Health > 0)
 		{
 			DistMin = TmpDist;
 			Index = i;
-			AgroCheck = TabCharacter[i];
+			TargetToFollow = TabCharacter[i];
 		}
 	}
-	return AgroCheck;
+	return TargetToFollow;
+}
+
+void AAIControllerBoss2::SaveProba() 
+{
+	FVector tmp = FVector(Boss2->GetActorForwardVector().X - Boss2->GetActorLocation().X, Boss2->GetActorForwardVector().Y - Boss2->GetActorLocation().Y, Boss2->GetActorForwardVector().Z - Boss2->GetActorLocation().Z);
+	float angle = acos(Boss2->GetActorForwardVector().DotProduct(Boss2->GetActorForwardVector(), tmp));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(angle));
 }

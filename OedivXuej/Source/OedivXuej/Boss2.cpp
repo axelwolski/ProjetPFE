@@ -31,7 +31,7 @@ void ABoss2::Tick(float DeltaTime)
 	if (IsAttacking)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
-		int r = 0; //rand() % 3;
+		int r = rand() % 3;
 		if (r == 0)
 		{
 			OnAttackBasic();
@@ -48,6 +48,7 @@ void ABoss2::Tick(float DeltaTime)
 	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(AttackAnimationBasic) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashRight) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashLeft))
 	{
 		BeginAnimationAttack = false;
+
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(BeginAnimationAttack));
 }
@@ -103,7 +104,7 @@ void ABoss2::SetAttackBasic()
 	}
 }
 
-// Slahs Right
+//Attack Slahs Right
 void ABoss2::MultiCastAttackSlashRight_Implementation()
 {
 	SetAttackSlashRight();
@@ -148,7 +149,7 @@ void ABoss2::SetAttackSlashRight()
 	}
 }
 
-// Attack Basic
+// Attack Slash Left
 void ABoss2::MultiCastAttackSlashLeft_Implementation()
 {
 	SetAttackSlashLeft();
