@@ -36,7 +36,7 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 						DownDoor->SetActorHiddenInGame(true);
 						DownDoor->SetActorEnableCollision(false);
 					}
-					if(ActorList[i]->GetName() == "ArenaV1_Lobby_Door_BP_180")
+					if(ActorList[i]->GetName().Find("Lobby_Door_BP") != -1)
 					{
 						ClosingDoor = ActorList[i];
 						GetWorld()->GetTimerManager().SetTimer(DoorDelayTimerHandle, this, &AOedivXuejGameMode::HideDoor, 3.0f, false);
