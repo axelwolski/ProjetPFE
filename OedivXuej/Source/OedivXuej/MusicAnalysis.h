@@ -9,14 +9,14 @@
 #include "MusicAnalysis.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class OEDIVXUEJ_API UMusicAnalysis : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
-	
+
 public:
 	UFUNCTION(BlueprintCallable, Category = "MusicAnalysis")
-		static int GetBpm(FString SourcePath);
+		static float GetBpm(FString SourcePath);
 };
