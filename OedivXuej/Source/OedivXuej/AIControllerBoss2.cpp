@@ -4,6 +4,8 @@
 #include "Runtime/Engine/Public/EngineUtils.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
+#include <stdlib.h>
+#include <time.h>
 //#include "SideScrollerConceptCharacter.h"
 
 
@@ -55,9 +57,109 @@ AOedivXuejCharacter* AAIControllerBoss2::AgroCheck()
 	return TargetToFollow;
 }
 
-void AAIControllerBoss2::SaveProba() 
+void AAIControllerBoss2::SaveProba()
 {
-	FVector tmp = FVector(Boss2->GetActorForwardVector().X - Boss2->GetActorLocation().X, Boss2->GetActorForwardVector().Y - Boss2->GetActorLocation().Y, Boss2->GetActorForwardVector().Z - Boss2->GetActorLocation().Z);
-	angle = acos(Boss2->GetActorForwardVector().DotProduct(Boss2->GetActorForwardVector(), tmp));
-	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::(angle));
+	if (TargetToFollow != NULL && Boss2 != NULL)
+	{
+		FVector2D tmp = FVector2D(Boss2->GetActorLocation().X - TargetToFollow->GetActorLocation().X, Boss2->GetActorLocation().Y - TargetToFollow->GetActorLocation().Y);
+		FVector2D Forward2D = FVector2D(Boss2->GetActorForwardVector().X, Boss2->GetActorForwardVector().Y);
+		float Ang1 = FMath::Atan2(tmp.X, tmp.Y);
+		float Ang2 = FMath::Atan2(Forward2D.X, Forward2D.Y);
+		Angle = FMath::RadiansToDegrees(Ang1 - Ang2);
+
+		if (Angle > 180.0f)
+		{
+			Angle -= 360.0f;
+		}
+		else if (Angle < -180.0f)
+		{
+			Angle += 360.0f;
+		}
+
+		/*if (Angle <= 180.f && Angle > 90.f)
+		{
+		ProbaHautDroite++;
+		}
+		else if(Angle <= 90.f && Angle > 0.f)
+		{
+		ProbaBasDroite++;
+		}
+		else if(Angle <= 0.f && Angle > -90.f)
+		{
+		ProbaBasGauche++;
+		}
+		else if(Angle <= -90.f && Angle > -180.f)
+		{
+		ProbaHautGauche++;
+		}*/
+		//SommeAttaque++;
+	}
+}
+
+
+FVector AAIControllerBoss2::GetDirectionProba()
+{
+
+	float hd = ProbaHautDroite / SommeAttaque * 100;
+	float bd = ProbaBasDroite / SommeAttaque * 100;
+	float bg = ProbaBasGauche / SommeAttaque * 100;
+	float hg = ProbaHautGauche / SommeAttaque * 100;
+
+	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(SommeAttaque));
+	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Blue, FString::FromInt(hd));
+	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(bg));
+
+	int r = FMath::RandRange(1, 100);
+	tmp = FVector(0.0, 0.0, 0.0);
+	float returnX;
+	float returnY;
+
+	if (r <= hd)
+	{
+		tmp = Boss2->GetActorForwardVector().RotateAngleAxis(45.f, Boss2->GetActorForwardVector());
+	}
+	else if (r > hd && r <= (hd + bd))
+	{
+		tmp = Boss2->GetActorForwardVector().RotateAngleAxis(135.f, Boss2->GetActorForwardVector());
+	}
+	else if (r > (hd + bd) && r <= (hd + bd + bg))
+	{
+		tmp = Boss2->GetActorForwardVector().RotateAngleAxis(225.0f, Boss2->GetActorForwardVector());
+
+		float Ang1 = FMath::Atan2(tmp.X, tmp.Y);
+		float Ang2 = FMath::Atan2(Boss2->GetActorForwardVector().X, Boss2->GetActorForwardVector().Y);
+		Angle = FMath::RadiansToDegrees(Ang1 - Ang2);
+
+		if (Angle > 180.0f)
+		{
+			Angle -= 360.0f;
+		}
+		else if (Angle < -180.0f)
+		{
+			Angle += 360.0f;
+		}
+		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(Angle));
+	}
+	else
+	{
+		tmp = Boss2->GetActorForwardVector().RotateAngleAxis(315.f, Boss2->GetActorForwardVector());
+	}
+
+	if (tmp.X > 0)
+	{
+		returnX = 10;
+	}
+	else
+	{
+		returnX = -10;
+	}
+	if (tmp.Y > 0)
+	{
+		returnY = 10;
+	}
+	else
+	{
+		returnY = -10;
+	}
+	return FVector(returnX, returnY, 0.f);
 }

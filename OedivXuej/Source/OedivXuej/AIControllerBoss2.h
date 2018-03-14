@@ -12,8 +12,8 @@
 #include "AIControllerBoss2.generated.h"
 
 /**
- * 
- */
+*
+*/
 UCLASS()
 class OEDIVXUEJ_API AAIControllerBoss2 : public AAIController
 {
@@ -22,43 +22,59 @@ class OEDIVXUEJ_API AAIControllerBoss2 : public AAIController
 public:
 	AAIControllerBoss2(const FObjectInitializer& ObjectInitializer);
 
-		UPROPERTY(transient)
-			UBlackboardComponent* BlackboardComp;
+	UPROPERTY(transient)
+		UBlackboardComponent* BlackboardComp;
 
-		UPROPERTY(transient)
-			UBehaviorTreeComponent* BehaviorComp;
-	
-		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, category = Info)
-			TArray<AOedivXuejCharacter*> TabCharacter;
+	UPROPERTY(transient)
+		UBehaviorTreeComponent* BehaviorComp;
 
-		virtual void Possess(APawn *InPawn);
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, category = Info)
+		TArray<AOedivXuejCharacter*> TabCharacter;
 
-		virtual void Tick(float DeltaSeconds) override;
+	virtual void Possess(APawn *InPawn);
 
-		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
-			bool RecupActor = true;
+	virtual void Tick(float DeltaSeconds) override;
 
-		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
-			AOedivXuejCharacter* TargetToFollow;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		bool RecupActor = true;
 
-		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
-			ABoss2* Boss2;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		AOedivXuejCharacter* TargetToFollow;
 
-		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
-			bool IsAttacking;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		ABoss2* Boss2;
 
-		UFUNCTION(BlueprintCallable, Category = Behavior)
-			int MoveToCharacter(AOedivXuejCharacter* AgroCheck);
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		bool IsAttacking;
 
-		UFUNCTION(BlueprintCallable, Category = Behavior)
-			void SaveProba();
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+		int MoveToCharacter(AOedivXuejCharacter* AgroCheck);
 
-		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
-			float angle;
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+		void SaveProba();
 
-		UFUNCTION(BlueprintCallable, Category = Behavior)
-			AOedivXuejCharacter* AgroCheck();
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		float Angle = 0.0f;
 
-		UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
-			bool BeginAttack = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		int ProbaHautDroite = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		int ProbaBasGauche = 100;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		int ProbaHautGauche = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		int ProbaBasDroite = 0;
+	int SommeAttaque = 100;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		FVector tmp;
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+		FVector GetDirectionProba();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+		AOedivXuejCharacter* AgroCheck();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		bool BeginAttack = false;
 };
