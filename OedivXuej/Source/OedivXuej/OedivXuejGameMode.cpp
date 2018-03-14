@@ -30,7 +30,7 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 			{
 				for (int32 i = 0; i != ActorList.Num(); i++)
 				{
-					if(ActorList[i]->GetName() == "SM_Plains_CastleArch_Iron_Gate_4_BP")
+					if(ActorList[i]->GetName().Find("Ground_Door_BP") != -1)
 					{
 						DownDoor = ActorList[i];
 						DownDoor->SetActorHiddenInGame(true);
