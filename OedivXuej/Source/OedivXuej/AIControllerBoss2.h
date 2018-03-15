@@ -67,7 +67,7 @@ public:
 	int SommeAttaque = 1;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
-		FVector tmp;
+		FVector Tmp;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 		FVector GetDirectionProba();

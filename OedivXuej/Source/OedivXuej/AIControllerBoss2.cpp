@@ -24,11 +24,27 @@ void AAIControllerBoss2::Possess(class APawn* InPawn)
 void AAIControllerBoss2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	bool Rage = false;
+	for (int i = 0; i < TabCharacter.Num(); i++)
+	{
+		float TmpDist = FVector::Distance(TabCharacter[i]->GetActorLocation(), Boss2->GetActorLocation());
+		if (TmpDist < 500)
+		{
+			int Tmp = Boss2->GetGetOut() + 1;
+			Boss2->SetGetOut(Tmp);
+			Rage = true;
+		}
+	}
+	if (!Rage && Boss2 != NULL)
+	{
+		int Tmp2 = 0;
+		Boss2->SetGetOut(0);
+	}
 }
 
 int AAIControllerBoss2::MoveToCharacter(AOedivXuejCharacter* AgroCheck)
 {
-	return MoveToLocation(AgroCheck->GetActorLocation(), 500.f);
+	return MoveToLocation(AgroCheck->GetActorLocation(), 500.f); // 500 -> Distance entre le joueur et le boss pour que l'arme touche
 }
 
 AOedivXuejCharacter* AAIControllerBoss2::AgroCheck()
@@ -61,9 +77,9 @@ void AAIControllerBoss2::SaveProba()
 {
 	if (TargetToFollow != NULL && Boss2 != NULL)
 	{
-		FVector2D tmp = FVector2D(Boss2->GetActorLocation().X - TargetToFollow->GetActorLocation().X, Boss2->GetActorLocation().Y - TargetToFollow->GetActorLocation().Y);
+		FVector2D Tmp = FVector2D(Boss2->GetActorLocation().X - TargetToFollow->GetActorLocation().X, Boss2->GetActorLocation().Y - TargetToFollow->GetActorLocation().Y);
 		FVector2D Forward2D = FVector2D(Boss2->GetActorForwardVector().X, Boss2->GetActorForwardVector().Y);
-		float Ang1 = FMath::Atan2(tmp.X, tmp.Y);
+		float Ang1 = FMath::Atan2(Tmp.X, Tmp.Y);
 		float Ang2 = FMath::Atan2(Forward2D.X, Forward2D.Y);
 		Angle = FMath::RadiansToDegrees(Ang1 - Ang2);
 
@@ -76,7 +92,7 @@ void AAIControllerBoss2::SaveProba()
 			Angle += 360.0f;
 		}
 
-		/*if (Angle <= 180.f && Angle > 90.f)
+		if (Angle <= 180.f && Angle > 90.f)
 		{
 		ProbaHautDroite++;
 		}
@@ -91,8 +107,8 @@ void AAIControllerBoss2::SaveProba()
 		else if(Angle <= -90.f && Angle > -180.f)
 		{
 		ProbaHautGauche++;
-		}*/
-		//SommeAttaque++;
+		}
+		SommeAttaque++;
 	}
 }
 
@@ -100,53 +116,49 @@ void AAIControllerBoss2::SaveProba()
 FVector AAIControllerBoss2::GetDirectionProba()
 {
 
-	float hd = ProbaHautDroite / SommeAttaque * 100;
-	float bd = ProbaBasDroite / SommeAttaque * 100;
-	float bg = ProbaBasGauche / SommeAttaque * 100;
-	float hg = ProbaHautGauche / SommeAttaque * 100;
+	float HD = ProbaHautDroite / SommeAttaque * 100;
+	float BD = ProbaBasDroite / SommeAttaque * 100;
+	float BG = ProbaBasGauche / SommeAttaque * 100;
+	float HG = ProbaHautGauche / SommeAttaque * 100;
 
-	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(SommeAttaque));
-	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Blue, FString::FromInt(hd));
-	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(bg));
-
-	int r = FMath::RandRange(1, 100);
-	tmp = FVector(0.0, 0.0, 0.0);
-	float returnX;
-	float returnY;
-	FRotator rot = Boss2->GetActorForwardVector().Rotation();
-	if (r <= hd)
+	int R = FMath::RandRange(1, 100);
+	Tmp = FVector(0.0, 0.0, 0.0);
+	float ReturnX;
+	float ReturnY;
+	FRotator Rot = Boss2->GetActorForwardVector().Rotation();
+	if (R <= HD)
 	{
-		rot.Yaw += 45.f;
+		Rot.Yaw += 45.f;
 	}
-	else if (r > hd && r <= (hd + bd))
+	else if (R > HD && R <= (HD + BD))
 	{
-		rot.Yaw += 135.f;
+		Rot.Yaw += 135.f;
 	}
-	else if (r > (hd + bd) && r <= (hd + bd + bg))
+	else if (R > (HD + BD) && R <= (HD + BD + BG))
 	{
-		rot.Yaw += 225.f;
+		Rot.Yaw += 225.f;
 	}
 	else
 	{
-		rot.Yaw += 315.f;
+		Rot.Yaw += 315.f;
 	}
-	tmp = rot.Vector();
+	Tmp = Rot.Vector();
 
-	if (tmp.X > 0)
+	if (Tmp.X > 0)
 	{
-		returnX = 10;
+		ReturnX = 10;
 	}
 	else
 	{
-		returnX = -10;
+		ReturnX = -10;
 	}
-	if (tmp.Y > 0)
+	if (Tmp.Y > 0)
 	{
-		returnY = 10;
+		ReturnY = 10;
 	}
 	else
 	{
-		returnY = -10;
+		ReturnY = -10;
 	}
-	return FVector(returnX, returnY, 0.f);
+	return FVector(ReturnX, ReturnY, 0.f);
 }

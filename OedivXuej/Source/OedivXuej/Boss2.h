@@ -36,6 +36,12 @@ public:
 		FString Name;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		int GetOut = 0;
+
+	void SetGetOut(int NewGetOut);
+	int GetGetOut();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		bool IsAttacking = false;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
@@ -90,6 +96,22 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
 		class UAnimMontage* AttackAnimationSlashLeft;
+
+	//Animation Attack Slash Left
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastAttackRage();
+	void MultiCastAttackRage_Implementation();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerAttackRage();
+	void ServerAttackRage_Implementation();
+	bool ServerAttackRage_Validate();
+
+	void OnAttackRage();
+	void SetAttackRage();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
+		class UAnimMontage* AttackAnimationRage;
 
 	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
 

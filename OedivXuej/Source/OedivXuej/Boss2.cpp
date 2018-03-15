@@ -26,31 +26,48 @@ void ABoss2::BeginPlay()
 void ABoss2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	srand(time(NULL));
 	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
+	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(GetOut));
 	if (IsAttacking)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
-		int r = 0; // rand() % 3;
-		if (r == 0)
+		if (GetOut > 100) 
 		{
-			OnAttackBasic();
+			OnAttackRage();
 		}
-		else if (r == 1)
+		else
 		{
-			OnAttackSlashLeft();
-		}
-		else if (r == 2)
-		{
-			OnAttackSlashRight();
+			int r = 0; // FMath::RandRange(0, 2);
+			if (r == 0)
+			{
+				OnAttackBasic();
+			}
+			else if (r == 1)
+			{
+				OnAttackSlashLeft();
+			}
+			else
+			{
+				OnAttackSlashRight();
+			}
 		}
 	}
-	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(AttackAnimationBasic) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashRight) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashLeft))
+	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(AttackAnimationBasic) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashRight) && !AnimInstance->Montage_IsPlaying(AttackAnimationSlashLeft) && !AnimInstance->Montage_IsPlaying(AttackAnimationRage))
 	{
 		BeginAnimationAttack = false;
 
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(BeginAnimationAttack));
+}
+
+void ABoss2::SetGetOut(int NewGetOut)
+{
+	GetOut = NewGetOut;
+}
+
+int ABoss2::GetGetOut()
+{
+	return GetOut;
 }
 
 // Called to bind functionality to input
@@ -194,7 +211,54 @@ void ABoss2::SetAttackSlashLeft()
 	}
 }
 
+// Attack Rage
+void ABoss2::MultiCastAttackRage_Implementation()
+{
+	SetAttackRage();
+}
+
+void ABoss2::ServerAttackRage_Implementation()
+{
+	MultiCastAttackRage();
+}
+
+bool ABoss2::ServerAttackRage_Validate()
+{
+	return true;
+}
+
+void ABoss2::OnAttackRage()
+{
+
+	if (HasAuthority())
+	{
+		MultiCastAttackRage();
+	}
+	else
+	{
+		ServerAttackRage();
+	}
+}
+
+void ABoss2::SetAttackRage()
+{
+	// try and play a firing animation if specified
+	if (AttackAnimationRage != NULL)
+	{
+		AnimInstance = GetMesh()->GetAnimInstance();
+		// Get the animation object for the arms mesh
+		if (AnimInstance != NULL)
+		{
+			AnimInstance->Montage_Play(AttackAnimationRage, 1.f);
+			BeginAnimationAttack = true;
+			IsAttacking = false;
+		}
+	}
+}
+
 void ABoss2::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
+
+
