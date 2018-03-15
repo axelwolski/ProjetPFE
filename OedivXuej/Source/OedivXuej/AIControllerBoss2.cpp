@@ -113,37 +113,24 @@ FVector AAIControllerBoss2::GetDirectionProba()
 	tmp = FVector(0.0, 0.0, 0.0);
 	float returnX;
 	float returnY;
-
+	FRotator rot = Boss2->GetActorForwardVector().Rotation();
 	if (r <= hd)
 	{
-		tmp = Boss2->GetActorForwardVector().RotateAngleAxis(45.f, Boss2->GetActorForwardVector());
+		rot.Yaw += 45.f;
 	}
 	else if (r > hd && r <= (hd + bd))
 	{
-		tmp = Boss2->GetActorForwardVector().RotateAngleAxis(135.f, Boss2->GetActorForwardVector());
+		rot.Yaw += 135.f;
 	}
 	else if (r > (hd + bd) && r <= (hd + bd + bg))
 	{
-		tmp = Boss2->GetActorForwardVector().RotateAngleAxis(225.0f, Boss2->GetActorForwardVector());
-
-		float Ang1 = FMath::Atan2(tmp.X, tmp.Y);
-		float Ang2 = FMath::Atan2(Boss2->GetActorForwardVector().X, Boss2->GetActorForwardVector().Y);
-		Angle = FMath::RadiansToDegrees(Ang1 - Ang2);
-
-		if (Angle > 180.0f)
-		{
-			Angle -= 360.0f;
-		}
-		else if (Angle < -180.0f)
-		{
-			Angle += 360.0f;
-		}
-		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(Angle));
+		rot.Yaw += 225.f;
 	}
 	else
 	{
-		tmp = Boss2->GetActorForwardVector().RotateAngleAxis(315.f, Boss2->GetActorForwardVector());
+		rot.Yaw += 315.f;
 	}
+	tmp = rot.Vector();
 
 	if (tmp.X > 0)
 	{

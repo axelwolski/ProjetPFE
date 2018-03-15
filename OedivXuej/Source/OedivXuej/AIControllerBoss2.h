@@ -59,12 +59,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		int ProbaHautDroite = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
-		int ProbaBasGauche = 100;
+		int ProbaBasGauche = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		int ProbaHautGauche = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		int ProbaBasDroite = 0;
-	int SommeAttaque = 100;
+	int SommeAttaque = 1;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		FVector tmp;
