@@ -52,6 +52,21 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 				}
 			}
 		}
+		else if(Gi->bMultiPlayerGame)
+		{
+			if(GetWorld()->GetMapName().Mid(GetWorld()->StreamingLevelsPrefix.Len()) != "MainMenu")
+			{
+				for (int32 i = 0; i != ActorList.Num(); i++)
+				{
+					if(ActorList[i]->GetName().Find("Ground_Door_BP") != -1)
+					{
+						DownDoor = ActorList[i];
+						DownDoor->SetActorHiddenInGame(true);
+						DownDoor->SetActorEnableCollision(false);
+					}
+				}
+			}
+		}
 	}
 	else
 	{
