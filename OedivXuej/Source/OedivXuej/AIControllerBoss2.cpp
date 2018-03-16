@@ -44,7 +44,11 @@ void AAIControllerBoss2::Tick(float DeltaTime)
 
 int AAIControllerBoss2::MoveToCharacter(AOedivXuejCharacter* AgroCheck)
 {
-	return MoveToLocation(AgroCheck->GetActorLocation(), 500.f); // 500 -> Distance entre le joueur et le boss pour que l'arme touche
+	if (Boss2->StartFight)
+	{
+		return MoveToLocation(AgroCheck->GetActorLocation(), 500.f); // 500 -> Distance entre le joueur et le boss pour que l'arme touche
+	}
+	return -1;
 }
 
 AOedivXuejCharacter* AAIControllerBoss2::AgroCheck()
