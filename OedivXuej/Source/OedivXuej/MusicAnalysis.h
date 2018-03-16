@@ -18,5 +18,5 @@ class OEDIVXUEJ_API UMusicAnalysis : public UBlueprintFunctionLibrary
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "MusicAnalysis")
-		static float GetBpm(FString SourcePath);
+		static float GetBpm(FString SourceName);
 };

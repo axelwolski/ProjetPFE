@@ -3,14 +3,14 @@
 #include "MusicAnalysis.h"
 
 
-float UMusicAnalysis::GetBpm(FString SourcePath)
+float UMusicAnalysis::GetBpm(FString SourceName)
 {
 	uint_t HopSize = 1024;
   uint_t WinSize = 1024;
   uint_t Framerate = 44100;
   uint_t Read = 0;
 
-  SourcePath = FPaths::ProjectDir() + "Content/Music/Platformer2.wav";
+  FString SourcePath = FPaths::ProjectDir() + "Content/Music/" + SourceName;
 	char_t* Source_path = TCHAR_TO_ANSI(*SourcePath);
 
 	aubio_source_t* Source = new_aubio_source(Source_path, Framerate, HopSize);
