@@ -8,7 +8,9 @@ ABoss1::ABoss1()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	Health = 1.0f;
+	Name = "Robo Golem";
+	HasHit = false;
 }
 
 // Called when the game starts or when spawned

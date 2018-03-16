@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Runtime/Core/Public/Math/Vector.h"
+#include "Runtime/Engine/Classes/Animation/AnimInstance.h"
+#include "Runtime/Engine/Classes/Animation/AnimMontage.h"
 #include "Boss1.generated.h"
 
 UCLASS()
@@ -23,9 +26,20 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		float Health;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		bool StartFight;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		bool HasHit;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		FString Name;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		bool IsAttacking = false;
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
 	
 };
