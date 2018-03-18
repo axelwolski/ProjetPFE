@@ -60,5 +60,38 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
 		class UAnimMontage* HideAnimation;
 
+	//Animation Attack Base 
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastAttackBase();
+	void MultiCastAttackBase_Implementation();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerAttackBase();
+	void ServerAttackBase_Implementation();
+	bool ServerAttackBase_Validate();
+
+	void OnAttackBase();
+	void SetAttackBase();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
+		class UAnimMontage* AttackBaseAnimation;
+
+	//Animation Charge 
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastCharge();
+	void MultiCastCharge_Implementation();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerCharge();
+	void ServerCharge_Implementation();
+	bool ServerCharge_Validate();
+
+	void OnCharge();
+	void SetCharge();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
+		class UAnimMontage* ChargeAnimation;
+
+
 	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
 };

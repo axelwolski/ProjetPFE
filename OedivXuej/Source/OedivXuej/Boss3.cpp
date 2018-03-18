@@ -31,6 +31,10 @@ void ABoss3::Tick(float DeltaTime)
 		OnHide();
 		Hide = true;
 	}
+	if (IsAttacking)
+	{
+		OnAttackBase();
+	}
 	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(HideAnimation))
 	{
 		BeginAnimationAttack = false;
@@ -76,6 +80,96 @@ void ABoss3::SetHide()
 		if (AnimInstance != NULL)
 		{
 			AnimInstance->Montage_Play(HideAnimation, 0.7f);
+			BeginAnimationAttack = true;
+			IsAttacking = false;
+		}
+	}
+}
+
+// Attack Base
+void ABoss3::MultiCastAttackBase_Implementation()
+{
+	SetAttackBase();
+}
+
+void ABoss3::ServerAttackBase_Implementation()
+{
+	MultiCastAttackBase();
+}
+
+bool ABoss3::ServerAttackBase_Validate()
+{
+	return true;
+}
+
+void ABoss3::OnAttackBase()
+{
+
+	if (HasAuthority())
+	{
+		MultiCastAttackBase();
+	}
+	else
+	{
+		ServerAttackBase();
+	}
+}
+
+void ABoss3::SetAttackBase()
+{
+	// try and play a firing animation if specified
+	if (HideAnimation != NULL)
+	{
+		AnimInstance = GetMesh()->GetAnimInstance();
+		// Get the animation object for the arms mesh
+		if (AnimInstance != NULL)
+		{
+			AnimInstance->Montage_Play(AttackBaseAnimation, 1.0f);
+			BeginAnimationAttack = true;
+			IsAttacking = false;
+		}
+	}
+}
+
+// Charge
+void ABoss3::MultiCastCharge_Implementation()
+{
+	SetCharge();
+}
+
+void ABoss3::ServerCharge_Implementation()
+{
+	MultiCastCharge();
+}
+
+bool ABoss3::ServerCharge_Validate()
+{
+	return true;
+}
+
+void ABoss3::OnCharge()
+{
+
+	if (HasAuthority())
+	{
+		MultiCastCharge();
+	}
+	else
+	{
+		ServerCharge();
+	}
+}
+
+void ABoss3::SetCharge()
+{
+	// try and play a firing animation if specified
+	if (HideAnimation != NULL)
+	{
+		AnimInstance = GetMesh()->GetAnimInstance();
+		// Get the animation object for the arms mesh
+		if (AnimInstance != NULL)
+		{
+			AnimInstance->Montage_Play(ChargeAnimation, 1.0f);
 			BeginAnimationAttack = true;
 			IsAttacking = false;
 		}
