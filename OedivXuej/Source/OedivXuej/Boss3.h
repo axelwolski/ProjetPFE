@@ -38,7 +38,27 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		bool IsAttacking = false;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
+		bool BeginAnimationAttack = false;
 
+	UAnimInstance* AnimInstance;
+
+	//Animation Hide 
+	UFUNCTION(NetMulticast, Unreliable)
+		void MultiCastHide();
+	void MultiCastHide_Implementation();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerHide();
+	void ServerHide_Implementation();
+	bool ServerHide_Validate();
+
+	void OnHide();
+	void SetHide();
+	bool Hide = false; 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
+		class UAnimMontage* HideAnimation;
+
+	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;
 };

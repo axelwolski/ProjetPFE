@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Boss3.h"
+#include <stdlib.h>
+#include <time.h>
+#include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
 // Sets default values
@@ -17,20 +20,70 @@ ABoss3::ABoss3()
 void ABoss3::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void ABoss3::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (Health < 0.5 && !Hide)
+	{
+		OnHide();
+		Hide = true;
+	}
+	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(HideAnimation))
+	{
+		BeginAnimationAttack = false;
+	}
 }
 
-// Called to bind functionality to input
-void ABoss3::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+// Hide
+void ABoss3::MultiCastHide_Implementation()
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	SetHide();
+}
 
+void ABoss3::ServerHide_Implementation()
+{
+	MultiCastHide();
+}
+
+bool ABoss3::ServerHide_Validate()
+{
+	return true;
+}
+
+void ABoss3::OnHide()
+{
+
+	if (HasAuthority())
+	{
+		MultiCastHide();
+	}
+	else
+	{
+		ServerHide();
+	}
+}
+
+void ABoss3::SetHide()
+{
+	// try and play a firing animation if specified
+	if (HideAnimation != NULL)
+	{
+		AnimInstance = GetMesh()->GetAnimInstance();
+		// Get the animation object for the arms mesh
+		if (AnimInstance != NULL)
+		{
+			AnimInstance->Montage_Play(HideAnimation, 0.7f);
+			BeginAnimationAttack = true;
+			IsAttacking = false;
+		}
+	}
+}
+
+void ABoss3::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
 
