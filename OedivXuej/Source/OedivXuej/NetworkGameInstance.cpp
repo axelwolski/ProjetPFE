@@ -5,6 +5,6 @@
 
 
 
-UNetworkGameInstance::UNetworkGameInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), bMultiPlayerGame(false), MaxNumPlayers(4)
+UNetworkGameInstance::UNetworkGameInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), bMultiPlayerGame(false), MaxNumPlayers(1)
 {
 }

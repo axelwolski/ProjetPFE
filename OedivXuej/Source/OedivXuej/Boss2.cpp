@@ -37,7 +37,7 @@ void ABoss2::Tick(float DeltaTime)
 		}
 		else
 		{
-			int r = 0; // FMath::RandRange(0, 2);
+			int r = FMath::RandRange(0, 2);
 			if (r == 0)
 			{
 				OnAttackBasic();

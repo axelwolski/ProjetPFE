@@ -22,7 +22,7 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 	// destroy the arena blocking door when playing solo or all players are in the level
 	ActorList = GetWorld()->GetCurrentLevel()->Actors;
 	UNetworkGameInstance* Gi = Cast<UNetworkGameInstance>(GetWorld()->GetGameInstance());
-	if(Gi)
+	/*if(Gi)
 	{
 		if(!Gi->bMultiPlayerGame || GetNumPlayers() == Gi->MaxNumPlayers)
 		{
@@ -47,7 +47,7 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 						else
 						{
 							UErrorLog::WriteError("PostLogin", "Can't destroy actor");
-						}*/
+						}
 					}
 				}
 			}
@@ -71,7 +71,7 @@ void AOedivXuejGameMode::PostLogin(APlayerController * NewPlayer)
 	else
 	{
 		UErrorLog::WriteError("PostLogin", "Can't find game instance");
-	}
+	}*/
 }
 
 void AOedivXuejGameMode::HideDoor()

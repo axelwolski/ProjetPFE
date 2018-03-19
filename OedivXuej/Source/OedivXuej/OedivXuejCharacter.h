@@ -112,6 +112,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Level, Replicated)
 		bool OnArena;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Level, Replicated)
+		bool BefArena;
+
 	//Animation Roll
 	UFUNCTION(NetMulticast, Unreliable)
 		void MultiCastSetRoll();
