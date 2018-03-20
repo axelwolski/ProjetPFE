@@ -26,18 +26,21 @@ void ABoss3::BeginPlay()
 void ABoss3::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (Health < 0.5 && !Hide)
+
+	if (TakeHit && !Hide)
 	{
 		OnHide();
 		Hide = true;
+		TakeHit = false;
 	}
-	if (IsAttacking)
+	else if (IsAttacking)
 	{
 		OnAttackBase();
 	}
-	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(HideAnimation))
+	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(HideAnimation) && !AnimInstance->Montage_IsPlaying(AttackBaseAnimation) && !AnimInstance->Montage_IsPlaying(ChargeAnimation))
 	{
 		BeginAnimationAttack = false;
+		Hide = false;
 	}
 }
 

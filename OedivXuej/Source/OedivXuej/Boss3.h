@@ -34,6 +34,8 @@ public:
 		bool HasHit;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString Name;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		bool TakeHit = false;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		bool IsAttacking = false;
@@ -88,6 +90,8 @@ public:
 
 	void OnCharge();
 	void SetCharge();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
+		bool CanCharge = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Boss, Replicated)
 		class UAnimMontage* ChargeAnimation;
