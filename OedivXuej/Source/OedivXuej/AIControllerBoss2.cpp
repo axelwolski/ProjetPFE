@@ -56,7 +56,7 @@ AOedivXuejCharacter* AAIControllerBoss2::AgroCheck()
 	int Index = 0;
 	for (int i = 0; i < TabCharacter.Num(); i++)
 	{
-		if (TabCharacter[i]->Health > 0)
+		if (TabCharacter[i]->HealthCharacter > 0)
 		{
 			Index = i;
 			break;
@@ -67,7 +67,7 @@ AOedivXuejCharacter* AAIControllerBoss2::AgroCheck()
 	for (int i = 1; i < TabCharacter.Num(); i++)
 	{
 		float TmpDist = FVector::Distance(TabCharacter[i]->GetActorLocation(), Boss2->GetActorLocation());
-		if (DistMin > TmpDist && TabCharacter[i]->Health > 0)
+		if (DistMin > TmpDist && TabCharacter[i]->HealthCharacter > 0)
 		{
 			DistMin = TmpDist;
 			Index = i;

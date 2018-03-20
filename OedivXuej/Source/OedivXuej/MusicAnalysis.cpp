@@ -11,7 +11,7 @@ float UMusicAnalysis::GetBpm(FString SourceName)
 	uint_t Read = 0;
 
 	FString SourcePath = FPaths::ProjectDir() + "Content/Music/" + SourceName;
-	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FPaths::ProjectDir());
+	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FPaths::ProjectDir());
 	char_t* Source_path = TCHAR_TO_ANSI(*SourcePath);
 
 	aubio_source_t* Source = new_aubio_source(Source_path, Framerate, HopSize);

@@ -34,7 +34,7 @@ public:
 		float BaseLookUpRate;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
-		float Health;
+		float HealthCharacter;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		float Energy;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)

@@ -25,9 +25,9 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	bReplicates = true;
 
 	// Initialize stats for our character
-	Health = 1.0f;
+	HealthCharacter = 1.0f;
 	Energy = 1.0f;
-	HealthPercent = FString::FromInt(Health * 100);
+	HealthPercent = FString::FromInt(HealthCharacter * 100);
 	EnergyPercent = FString::FromInt(Energy * 100);
 	LastEnergy = 1.0f;
 
@@ -141,7 +141,7 @@ void AOedivXuejCharacter::UpdateEnergyPercent()
 
 void AOedivXuejCharacter::UpdateHealthPercent()
 {
-	HealthPercent = FString::FromInt(Health * 100);
+	HealthPercent = FString::FromInt(HealthCharacter * 100);
 }
 
 void AOedivXuejCharacter::Tick(float DeltaSeconds) {
@@ -179,6 +179,7 @@ void AOedivXuejCharacter::Tick(float DeltaSeconds) {
 	if (AnimInstance != NULL && !AnimInstance->Montage_IsPlaying(StabAnimation) && !AnimInstance->Montage_IsPlaying(StabHighAnimation) && !AnimInstance->Montage_IsPlaying(StabJumpAnimation)) {
 		IsAttacking = false;
 	}
+	UpdateHealthPercent();
 
 
 	/*
@@ -583,13 +584,13 @@ void AOedivXuejCharacter::SetStabJump()
 
 	void AOedivXuejCharacter::SetHealth(float HealthChange)
 	{
-		float NewHealth = Health + HealthChange;
+		float NewHealth = HealthCharacter + HealthChange;
 		if (NewHealth >= 0.0 && NewHealth <= 1.0)
-			Health = NewHealth;
+			HealthCharacter = NewHealth;
 		else if (NewHealth < 0.0)
-			Health = 0.0;
+			HealthCharacter = 0.0;
 		else
-			Health = 1.0;
+			HealthCharacter = 1.0;
 
 		UpdateHealthPercent();
 	}
@@ -604,19 +605,19 @@ void AOedivXuejCharacter::SetStabJump()
 
 	void AOedivXuejCharacter::TestHealth()
 	{
-		if (Health != 1.0)
+		if (HealthCharacter != 1.0)
 			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Health start value : FAIL")));
 		else
 			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Health start value : 1.0 OK")));
 
 		SetHealth(2.0);
-		if (Health != 1.0)
+		if (HealthCharacter != 1.0)
 			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Health max value : FAIL")));
 		else
 			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Health max value : 1.0 OK")));
 
 		SetHealth(-2.0);
-		if (Health != 0.0)
+		if (HealthCharacter != 0.0)
 			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TEST : Health min value : FAIL")));
 		else
 			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("TEST : Health min value : 0.0 OK")));
