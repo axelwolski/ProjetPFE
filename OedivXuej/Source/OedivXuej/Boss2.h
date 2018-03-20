@@ -26,7 +26,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Replicated, Category = Stats)
 		float Health;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		bool StartFight;
