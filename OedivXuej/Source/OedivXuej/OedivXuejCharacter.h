@@ -46,6 +46,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
 		FString EnergyPercent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		float EnergyJump;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		float EnergyRoll;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		float EnergyAtk;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		float EnergyAtkTurn;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stats)
+		float EnergyAtkJump;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Info)
 		bool IsAttacking;
 

@@ -31,6 +31,12 @@ AOedivXuejCharacter::AOedivXuejCharacter()
 	EnergyPercent = FString::FromInt(Energy * 100);
 	LastEnergy = 1.0f;
 
+	EnergyJump = 0.05f;
+	EnergyRoll = 0.15;
+	EnergyAtk = 0.10f;
+	EnergyAtkTurn = 0.20f;
+	EnergyAtkJump = 0.30f;
+
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
@@ -112,16 +118,16 @@ void AOedivXuejCharacter::JumpRoll()
 {
 	if (this->GetCharacterMovement()->Velocity.Z == 0 && canMove())
 	{
-		if (Energy >= 0.20)
+		if (Energy >= EnergyJump)
 		{
 			Info = "";
 			Jump();
-			SetEnergy(-0.20);
+			SetEnergy(-EnergyJump);
 		}
 		else
 		{
 			Info = "Not Enought Energy !";
-			LastEnergy = 0.20f;
+			LastEnergy = EnergyJump;
 		}
 	}
 }
@@ -338,10 +344,10 @@ bool AOedivXuejCharacter::ServerSetRoll_Validate()
 
 void AOedivXuejCharacter::OnRoll()
 {
-	if (Energy >= 0.25)
+	if (Energy >= EnergyRoll)
 	{
 		if (canRoll){
-			SetEnergy(-0.25);
+			SetEnergy(-EnergyRoll);
 			Info = "";
 			if (HasAuthority())
 			{
@@ -356,7 +362,7 @@ void AOedivXuejCharacter::OnRoll()
 	else
 	{
 		Info = "Not Enought Energy !";
-		LastEnergy = 0.25;
+		LastEnergy = EnergyRoll;
 	}
 }
 
@@ -393,11 +399,11 @@ bool AOedivXuejCharacter::ServerSetStab_Validate(UAnimMontage* animStab)
 
 void AOedivXuejCharacter::OnStab()
 {
-	if (Energy >= 0.05)
+	if (Energy >= EnergyAtk)
 	{
 
 		if (canMove()) {
-			SetEnergy(-0.05);
+			SetEnergy(-EnergyAtk);
 			Info = "";
 			if (HasAuthority())
 			{
@@ -415,7 +421,7 @@ void AOedivXuejCharacter::OnStab()
 	else
 	{
 		Info = "Not Enought Energy !";
-		LastEnergy = 0.05;
+		LastEnergy = EnergyAtk;
 	}
 }
 
@@ -474,11 +480,11 @@ bool AOedivXuejCharacter::ServerSetStabHigh_Validate()
 
 void AOedivXuejCharacter::OnStabHigh()
 {
-	if (Energy >= 0.10)
+	if (Energy >= EnergyAtkTurn)
 	{
 		float ws = FVector::DotProduct(GetVelocity(), GetActorRotation().Vector());
 		if (canMove() && ws > 500) {
-			SetEnergy(-0.10);
+			SetEnergy(-EnergyAtkTurn);
 			Info = "";
 			if (HasAuthority())
 			{
@@ -493,7 +499,7 @@ void AOedivXuejCharacter::OnStabHigh()
 	else
 	{
 		Info = "Not Enought Energy !";
-		LastEnergy = 0.10;
+		LastEnergy = EnergyAtkTurn;
 	}
 }
 
@@ -530,11 +536,11 @@ bool AOedivXuejCharacter::ServerSetStabJump_Validate()
 
 void AOedivXuejCharacter::OnStabJump()
 {
-	if (Energy >= 0.10)
+	if (Energy >= EnergyAtkJump)
 	{
 		float ws = FVector::DotProduct(GetVelocity(), GetActorRotation().Vector());
 		if (canMove() && ws > 500) {
-			SetEnergy(-0.10);
+			SetEnergy(-EnergyAtkJump);
 			Info = "";
 			if (HasAuthority())
 			{
@@ -549,7 +555,7 @@ void AOedivXuejCharacter::OnStabJump()
 	else
 	{
 		Info = "Not Enought Energy !";
-		LastEnergy = 0.10;
+		LastEnergy = EnergyAtkJump;
 	}
 }
 
