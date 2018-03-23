@@ -48,6 +48,10 @@ public:
 		bool BeginAnimationAttack = false;
 
 	UAnimInstance* AnimInstance;
+	int Cpt0 = 0;
+	int Cpt1 = 0;
+	int Cpt2 = 0;
+	int CptAttack = 0;
 
 	//Animation Attack Basic 
 	UFUNCTION(NetMulticast, Unreliable)

@@ -66,6 +66,13 @@ public:
 		int ProbaBasDroite = 0;
 	int SommeAttaque = 1;
 
+	//Variable test proba
+	int AvGauche = 0;
+	int AvDroite = 0;
+	int DerGauche = 0;
+	int DerDroite = 0;
+	int tt = 0;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		FVector Tmp;
 

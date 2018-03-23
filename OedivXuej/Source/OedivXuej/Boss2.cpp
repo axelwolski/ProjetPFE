@@ -26,29 +26,48 @@ void ABoss2::BeginPlay()
 void ABoss2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
-	//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(GetOut));
 	if (IsAttacking)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString::FromInt(IsAttacking));
 		if (GetOut > 100) 
 		{
+			//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::White, FString("\nAOE Rage begin\n"));
 			OnAttackRage();
 		}
 		else
 		{
-			int r = FMath::RandRange(0, 2);
-			if (r == 0)
+			/*
+			CptAttack++;
+			if (CptAttack == 100)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Attack 3 : ") + FString::FromInt(Cpt2));
+				GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Attack 2 : ") + FString::FromInt(Cpt1));
+				GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Attack 1 : ") + FString::FromInt(Cpt0));
+			}*/
+			int R = FMath::RandRange(0, 2);
+			//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Random number is : ") + FString::FromInt(R));
+			if (R == 0)
 			{
 				OnAttackBasic();
+				/*
+				Cpt0++;
+				GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Attack select is Attack1"));
+				*/
 			}
-			else if (r == 1)
+			else if (R == 1)
 			{
 				OnAttackSlashLeft();
+				/*
+				Cpt1++;
+				GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Attack select is Attack2"));
+				*/
 			}
 			else
 			{
 				OnAttackSlashRight();
+				/*
+				Cpt2++;
+				GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Attack select is Attack3"));
+				*/
 			}
 		}
 	}

@@ -63,10 +63,19 @@ AOedivXuejCharacter* AAIControllerBoss2::AgroCheck()
 		}
 	}
 	float DistMin = FVector::Distance(TabCharacter[Index]->GetActorLocation(), Boss2->GetActorLocation());
+	/*
+	float TmpHealth = TabCharacter[0]->HealthCharacter * 100;
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Player") + FString::FromInt(0) + FString(", distance : ") + FString::FromInt(DistMin) + FString(", health : ") + FString::FromInt(TmpHealth) + FString("\n"));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("GetOut value : ") + FString::FromInt(Boss2->GetGetOut()));
+	*/
 	TargetToFollow = TabCharacter[Index];
 	for (int i = 1; i < TabCharacter.Num(); i++)
 	{
 		float TmpDist = FVector::Distance(TabCharacter[i]->GetActorLocation(), Boss2->GetActorLocation());
+		/*
+		TmpHealth = TabCharacter[i]->HealthCharacter * 100;
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Player") + FString::FromInt(i) + FString(", distance : ") + FString::FromInt(TmpDist) + FString(", health : ") + FString::FromInt(TmpHealth));
+		*/
 		if (DistMin > TmpDist && TabCharacter[i]->HealthCharacter > 0)
 		{
 			DistMin = TmpDist;
@@ -74,6 +83,15 @@ AOedivXuejCharacter* AAIControllerBoss2::AgroCheck()
 			TargetToFollow = TabCharacter[i];
 		}
 	}
+	
+	/*
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Distance between boss/players :"));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("Boss is attacking : ") + FString::FromInt(Boss2->BeginAnimationAttack));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("\n"));
+	
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Boss TargetToFollow : ") + FString("Player") + FString::FromInt(Index));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("\n"));
+	*/
 	return TargetToFollow;
 }
 
@@ -87,6 +105,14 @@ void AAIControllerBoss2::SaveProba()
 		float Ang2 = FMath::Atan2(Forward2D.X, Forward2D.Y);
 		Angle = FMath::RadiansToDegrees(Ang1 - Ang2);
 
+		
+		/*GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("FrontLeft: ") + FString::FromInt(ProbaHautGauche));
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("FrontRight: ") + FString::FromInt(ProbaHautDroite));
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("BackRight: ") + FString::FromInt(ProbaBasDroite));
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("BackLeft: ") + FString::FromInt(ProbaBasGauche));
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Probability before attack:"));
+		*/
+
 		if (Angle > 180.0f)
 		{
 			Angle -= 360.0f;
@@ -95,6 +121,8 @@ void AAIControllerBoss2::SaveProba()
 		{
 			Angle += 360.0f;
 		}
+
+		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::White, FString("\n") + FString("Angle: ") + FString::FromInt(Angle) + FString(" Degree \n"));
 
 		if (Angle <= 180.f && Angle > 90.f)
 		{
@@ -114,55 +142,82 @@ void AAIControllerBoss2::SaveProba()
 		}
 		SommeAttaque++;
 	}
+	
+	/*GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("FrontLeft: ") + FString::FromInt(ProbaHautGauche));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("FrontRight: ") + FString::FromInt(ProbaHautDroite));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("BackRight: ") + FString::FromInt(ProbaBasDroite));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("BackLeft: ") + FString::FromInt(ProbaBasGauche));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("\n \n \n") + FString("Probability after attack:"));
+	*/
+
 }
 
 
 FVector AAIControllerBoss2::GetDirectionProba()
 {
 
-	float HD = ProbaHautDroite / SommeAttaque * 100;
-	float BD = ProbaBasDroite / SommeAttaque * 100;
-	float BG = ProbaBasGauche / SommeAttaque * 100;
-	float HG = ProbaHautGauche / SommeAttaque * 100;
+	float HD = (float)ProbaHautDroite / (float)SommeAttaque * 100.f;
+	float BD = (float)ProbaBasDroite / (float)SommeAttaque * 100.f;
+	float BG = (float)ProbaBasGauche / (float)SommeAttaque * 100.f;
+	float HG = (float)ProbaHautGauche / (float)SommeAttaque * 100.f;
 
-	int R = FMath::RandRange(1, 100);
+	/*
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("FrontLeft: ") + FString::FromInt(HG));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("FrontRight: ") + FString::FromInt(HD));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("BackRight: ") + FString::FromInt(BD));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("BackLeft: ") + FString::FromInt(BG));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("Probability Direction:"));
+	*/
+
+	int MaxR = HD + BD + BG + HG;
+	int R = FMath::RandRange(1, MaxR);
 	Tmp = FVector(0.0, 0.0, 0.0);
-	float ReturnX;
-	float ReturnY;
 	FRotator Rot = Boss2->GetActorForwardVector().Rotation();
+
+	/*
+	float BeforeYaw = Rot.Yaw;
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::White, FString("Random: ") + FString::FromInt(R));
+	FString dir;
+	*/
+
 	if (R <= HD)
 	{
 		Rot.Yaw += 45.f;
+		/*dir = "FrontRight";
+		AvDroite++;
+		*/
 	}
 	else if (R > HD && R <= (HD + BD))
 	{
 		Rot.Yaw += 135.f;
+		/*dir = "BackRight";
+		DerDroite++;
+		*/
 	}
 	else if (R > (HD + BD) && R <= (HD + BD + BG))
 	{
 		Rot.Yaw += 225.f;
+		/*dir = "BackLeft";
+		DerGauche++;
+		*/
 	}
 	else
 	{
 		Rot.Yaw += 315.f;
+		/*dir = "FrontLeft";
+		AvGauche++;
+		*/
 	}
-	Tmp = Rot.Vector();
 
-	if (Tmp.X > 0)
+	/*tt++;
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::White, FString("\n") + FString("Direction attack: ") + FString::FromInt(Rot.Yaw - BeforeYaw) + FString(" degree which corresponds to ") + dir + FString("\n"));
+	if (tt == 100)
 	{
-		ReturnX = 10;
-	}
-	else
-	{
-		ReturnX = -10;
-	}
-	if (Tmp.Y > 0)
-	{
-		ReturnY = 10;
-	}
-	else
-	{
-		ReturnY = -10;
-	}
-	return FVector(ReturnX, ReturnY, 0.f);
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("FrontLeft: ") + FString::FromInt(AvGauche));
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("FrontRight: ") + FString::FromInt(AvDroite));
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("BackRight: ") + FString::FromInt(DerDroite));
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("BackLeft: ") + FString::FromInt(DerGauche));
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("FeedBack probability :"));
+	}*/
+	return FVector(Rot.Vector().X, Rot.Vector().Y, 0.f); // FVector(ReturnX, ReturnY, 0.f);
 }
