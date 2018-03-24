@@ -26,12 +26,19 @@ void ABoss3::BeginPlay()
 void ABoss3::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	 /*
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("Take dammage : ") + FString::FromInt(TakeHit));
+	GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Red, FString("Hide : ") + FString::FromInt(Hide));
+	*/
 	if (TakeHit && !Hide)
 	{
+
 		OnHide();
+		//GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Take dammage : ") + FString::FromInt(TakeHit));
 		Hide = true;
 		TakeHit = false;
+		/*GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("Hide : ") + FString::FromInt(Hide));
+		GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("\n"));*/
 	}
 	else if (IsAttacking)
 	{
@@ -82,7 +89,9 @@ void ABoss3::SetHide()
 		// Get the animation object for the arms mesh
 		if (AnimInstance != NULL)
 		{
-			AnimInstance->Montage_Play(HideAnimation, 0.7f);
+			AnimInstance->Montage_Play(HideAnimation, 0.7f); 
+			/*GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Yellow, FString("Play Animation : HideAnimation"));
+			GEngine->AddOnScreenDebugMessage(-1, 120.f, FColor::Green, FString("\n"));*/
 			BeginAnimationAttack = true;
 			IsAttacking = false;
 		}
